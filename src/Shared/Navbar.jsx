@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
-// import useAuth from "../../hooks/useAuth";
-// import CharityLogo from "./CharityLogo";
+import useAuth from "../hooks/useAuth";
+import CharityLogo from "./CharityLogo";
 
 const Navbar = () => {
 const {user, logOut} = useAuth();
