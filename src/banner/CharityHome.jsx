@@ -1,5 +1,5 @@
 import React from "react";
-import bannerImage from "../assets/charity-banner.png";
+// import bannerImage from "../assets/charity-banner.png";
 
 export default function CharityHome() {
   return (
@@ -7,7 +7,7 @@ export default function CharityHome() {
       {/* Banner Section */}
       <div className="relative">
         <img
-          src={bannerImage}
+          // src={bannerImage}
           alt="Charity Banner"
           className="w-full h-[600px] object-cover"
         />

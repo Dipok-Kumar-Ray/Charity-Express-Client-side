@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router";
-import CharityLogo from "../Shared/CharityLogo";
+import GoogleLogin from "./GoogleLogin";
 
 const Login = () => {
   const {
@@ -58,7 +58,7 @@ const Login = () => {
           <button className="btn btn-neutral mt-4">Login</button>
         </fieldset>
       </form>
-          <CharityLogo/>
+          <GoogleLogin/>
     </div>
   );
 };

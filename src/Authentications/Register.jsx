@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import CharityLogo from "../Shared/CharityLogo";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import useAxios from "../hooks/useAxios";
@@ -137,7 +136,7 @@ const Register = () => {
             </small>
           </p>
         </form>
-            <CharityLogo/>
+            {/* <CharityLogo/> */}
       </div>
     </div>
   );
