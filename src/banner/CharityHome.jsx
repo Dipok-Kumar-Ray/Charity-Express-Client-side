@@ -1,14 +1,13 @@
-import React from "react";
-// import bannerImage from "../assets/charity-banner.png";
+import React from 'react';
+import charityCover from  '../assets/charityCover.jpg'
 
-export default function CharityHome() {
+const CharityHome = () => {
   return (
-    <div className="bg-white text-gray-800 min-h-screen font-sans">
+       <div className="bg-white text-gray-800 min-h-screen font-sans">
       {/* Banner Section */}
       <div className="relative">
         <img
-          // src={bannerImage}
-          alt="Charity Banner"
+          src={charityCover}
           className="w-full h-[600px] object-cover"
         />
         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
@@ -32,20 +31,8 @@ export default function CharityHome() {
           need to thrive.
         </p>
       </section>
-
-      {/* Call to Action */}
-      <section className="py-12 bg-white text-center">
-        <h2 className="text-2xl md:text-3xl font-semibold text-green-800 mb-4">
-          Get Involved
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Whether you want to volunteer, donate, or partner with us — your support makes
-          a difference.
-        </p>
-        <button className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-xl shadow-md transition duration-300">
-          Join Us Today
-        </button>
-      </section>
     </div>
   );
-}
+};
+
+export default CharityHome;

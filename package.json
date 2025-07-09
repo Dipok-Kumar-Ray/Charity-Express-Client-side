@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^3.7.0",
+    "@stripe/stripe-js": "^7.4.0",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-query": "^5.81.5",
     "axios": "^1.10.0",
@@ -23,6 +24,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router": "^7.6.3",
     "sweetalert2": "^11.22.2",
+    "swiper": "^11.2.10",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
