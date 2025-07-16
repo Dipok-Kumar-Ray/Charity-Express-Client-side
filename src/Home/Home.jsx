@@ -5,7 +5,7 @@ const Home = () => {
     return (
         <div>
             <HomeSlider/>
-            <CharityHome/>
+            {/* <CharityHome/> */}
         </div>
     );
 };
