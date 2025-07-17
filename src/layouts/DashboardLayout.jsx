@@ -59,6 +59,11 @@ const DashboardLayout = () => {
         </NavLink>
       </li>
       <li>
+        <NavLink to="/donations" className="flex items-center gap-2">
+          <FaHome /> Add Donations
+        </NavLink>
+      </li>
+      <li>
         <NavLink to="/dashboard/myDonations" className="flex items-center gap-2">
           <FaBoxOpen /> My Donations
         </NavLink>
@@ -68,11 +73,11 @@ const DashboardLayout = () => {
           <FaHistory /> Payment History
         </NavLink>
       </li>
-      <li>
+      {/* <li>
         <NavLink to="/dashboard/profile" className="flex items-center gap-2">
           <MdOutlineManageAccounts /> Update Profile
         </NavLink>
-      </li>
+      </li> */}
     </ul>
         </ul>
       </div>

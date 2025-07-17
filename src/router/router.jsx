@@ -5,9 +5,9 @@ import AuthLayout from "../layouts/AuthLayout";
 import Login from "../Authentications/Login";
 import Register from "../Authentications/Register";
 import PrivateRoute from "../routes/PrivateRoute";
-import SendDonation from "../donations/SendDonation";
 import DashboardLayout from "../layouts/DashboardLayout";
 import NotFound from "../pages/NotFound";
+import AddDonation from "../donations/AddDonation";
 
 export const router = createBrowserRouter([
   {
@@ -42,8 +42,8 @@ export const router = createBrowserRouter([
     element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
   },
   {
-    path: 'send-donation',
-    Component: SendDonation
+    path: 'donations',
+    Component: AddDonation
   }, 
   {
     path: "*",
