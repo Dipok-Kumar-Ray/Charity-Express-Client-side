@@ -1,11 +1,13 @@
-import CharityHome from '../banner/CharityHome';
 import HomeSlider from '../banner/HomeSlider';
+import CommunityStories from '../ExtraSections/CommunityStories';
+import ImpactStats from '../ExtraSections/ImpactStats';
 
 const Home = () => {
     return (
         <div>
             <HomeSlider/>
-            {/* <CharityHome/> */}
+            <CommunityStories/>
+            <ImpactStats/>
         </div>
     );
 };

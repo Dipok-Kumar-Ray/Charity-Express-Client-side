@@ -7,6 +7,7 @@ import Register from "../Authentications/Register";
 import PrivateRoute from "../routes/PrivateRoute";
 import SendDonation from "../donations/SendDonation";
 import DashboardLayout from "../layouts/DashboardLayout";
+import NotFound from "../pages/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
         index: true,
         Component: Home,
       },
+      
     ],
   },
 
@@ -42,5 +44,10 @@ export const router = createBrowserRouter([
   {
     path: 'send-donation',
     Component: SendDonation
+  }, 
+  {
+    path: "*",
+    Component: NotFound
   }
 ]);
+
