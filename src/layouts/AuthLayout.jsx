@@ -1,7 +1,3 @@
-// import React from "react";
-// import { Outlet } from "react-router";
-// import ProFastLogo from "../shared/ProFastLogo/ProFastLogo";
-
 import authImg from "../assets/authImg.webp";
 import { Outlet } from "react-router";
 import CharityLogo from "../Shared/CharityLogo";

@@ -1,14 +1,15 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "../layouts/RootLayout";
-import Home from "../Home/Home";
-import AuthLayout from "../layouts/AuthLayout";
-import Login from "../Authentications/Login";
-import Register from "../Authentications/Register";
 import PrivateRoute from "../routes/PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
-import NotFound from "../pages/NotFound";
-import AddDonation from "../donations/AddDonation";
 import AllDonation from "../donations/allDonation/AllDonation";
+import DonationDetails from "../donations/donationDetails/DonationDetails";
+import Home from "../Home/Home";
+import Register from "../Authentications/Register";
+import Login from "../Authentications/Login";
+import AuthLayout from "../layouts/AuthLayout";
+import AddDonation from "../donations/AddDonation";
+import NotFound from "../pages/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -17,26 +18,30 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Home,
+        element: <Home></Home>
       },
       {
         path: 'allDonation',
         element: <PrivateRoute><AllDonation></AllDonation></PrivateRoute>
+      }, 
+      {
+        path: 'donationDetails/:id',
+        element: <DonationDetails/>
       }
     ],
   },
 
   {
     path: "/",
-    Component: AuthLayout,
+    element: <AuthLayout></AuthLayout>,
     children: [
       {
         path: "login",
-        Component: Login,
+        element: <Login></Login>
       },
       {
         path: "register",
-        Component: Register,
+        element: <Register></Register>
       },
     ],
   },
@@ -47,11 +52,11 @@ export const router = createBrowserRouter([
   },
   {
     path: 'donations',
-    Component: AddDonation
+    element: <AddDonation></AddDonation>
   }, 
   {
     path: "*",
-    Component: NotFound
+    element: <NotFound></NotFound>
   }
 ]);
 

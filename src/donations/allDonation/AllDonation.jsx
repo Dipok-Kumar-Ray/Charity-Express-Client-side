@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 const AllDonation = () => {
   const [donations, setDonations] = useState([]);
   const axiosSecure = useAxiosSecure();
-//   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchDonations = async () => {
@@ -29,7 +28,7 @@ const AllDonation = () => {
         {donations.map((donation) => (
           <div
             key={donation._id}
-            className="group relative bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-2xl duration-300"
+            className="group relative bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 transition duration-300 hover:bg-green-50 hover:shadow-xl hover:border-green-400 dark:hover:bg-gray-700"
           >
             {/* Image */}
             <img
@@ -37,7 +36,6 @@ const AllDonation = () => {
               alt={donation.title}
               className="h-48 w-full object-cover rounded-xl mb-4"
             />
-    console.log(donation.image);
             {/* Title */}
             <h3 className="text-xl font-semibold text-green-700 dark:text-green-200 mb-2">
               {donation.title}
@@ -45,7 +43,8 @@ const AllDonation = () => {
 
             {/* Info */}
             <p className="text-gray-600 dark:text-gray-300 mb-1">
-              🍽️ <strong>Restaurant:</strong> {donation.restaurantName} ({donation.location})
+              🍽️ <strong>Restaurant:</strong> {donation.restaurantName} (
+              {donation.location})
             </p>
 
             <p className="text-gray-600 dark:text-gray-300 mb-1">
@@ -72,7 +71,8 @@ const AllDonation = () => {
 
             {/* View Details Button */}
             <Link
-              to={`/donations/${donation._id}`}
+              to={`/donationDetails/${donation._id}`}
+              // to='/donationDetails'
               className="block text-center bg-green-600 text-white font-medium py-2 px-4 rounded-xl mt-2 hover:bg-green-700 transition duration-200"
             >
               View Details

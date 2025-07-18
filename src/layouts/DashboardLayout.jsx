@@ -1,9 +1,3 @@
-
-// import { NavLink, Outlet } from "react-router";
-// import ProFastLogo from "../shared/ProFastLogo/ProFastLogo";
-// import { FaHome, FaBoxOpen, FaHistory } from 'react-icons/fa';
-// import { MdOutlineManageAccounts } from 'react-icons/md';
-
 import { FaBoxOpen, FaHistory, FaHome } from "react-icons/fa";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { NavLink, Outlet } from "react-router";
