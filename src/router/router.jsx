@@ -8,6 +8,7 @@ import PrivateRoute from "../routes/PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
 import NotFound from "../pages/NotFound";
 import AddDonation from "../donations/AddDonation";
+import AllDonation from "../donations/allDonation/AllDonation";
 
 export const router = createBrowserRouter([
   {
@@ -18,7 +19,10 @@ export const router = createBrowserRouter([
         index: true,
         Component: Home,
       },
-      
+      {
+        path: 'allDonation',
+        element: <PrivateRoute><AllDonation></AllDonation></PrivateRoute>
+      }
     ],
   },
 

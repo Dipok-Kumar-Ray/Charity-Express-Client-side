@@ -19,7 +19,7 @@ const {user, logOut} = useAuth();
         <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink to="/allDonations">All Donations</NavLink>
+        <NavLink to="/allDonation">All Donations</NavLink>
       </li>
       {
         user && <>

@@ -73,11 +73,6 @@ const DashboardLayout = () => {
           <FaHistory /> Payment History
         </NavLink>
       </li>
-      {/* <li>
-        <NavLink to="/dashboard/profile" className="flex items-center gap-2">
-          <MdOutlineManageAccounts /> Update Profile
-        </NavLink>
-      </li> */}
     </ul>
         </ul>
       </div>
