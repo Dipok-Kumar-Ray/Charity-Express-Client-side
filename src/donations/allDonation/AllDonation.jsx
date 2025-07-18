@@ -1,7 +1,3 @@
-// import { Link } from "react-router";
-// import useAxiosSecure from "../../hooks/useAxiosSecure";
-// import { useEffect, useState } from "react";
-
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Link } from "react-router";
@@ -24,7 +20,7 @@ const AllDonation = () => {
     fetchDonations();
   }, [axiosSecure]);
 
-  // ✅ Filter by search (location)
+  //  Filter by search (location)
   const filteredDonations = donations
     .filter((donation) =>
       donation.location.toLowerCase().includes(searchTerm.toLowerCase())
@@ -44,7 +40,7 @@ const AllDonation = () => {
         All Available Donations
       </h2>
 
-      {/* ✅ Search & Sort Controls */}
+      {/*  Search & Sort Controls */}
       <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
         <input
           type="text"

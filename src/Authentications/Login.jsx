@@ -13,16 +13,19 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from || "/";
-  console.log("Location in Login Page", location);
 
   const onSubmit = (data) => {
     signIn(data.email, data.password)
       .then((result) => {
-        console.log(result.user);
-        navigate(from);
+        const user = result.user;
+        //  accessToken নেওয়া ও localStorage-এ সেভ
+        user.getIdToken().then((token) => {
+          localStorage.setItem("access-token", token);
+          navigate(from, { replace: true });
+        });
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Login Error:", error);
       });
   };
 
@@ -43,7 +46,7 @@ const Login = () => {
             <p className="text-red-500">Password is required</p>
           )}
           {errors.password?.type === "minLength" && (
-            <p className="text-red-500">Password be 6 characters or longer.</p>
+            <p className="text-red-500">Password must be 6 characters or longer.</p>
           )}
           <input
             type="password"
@@ -58,7 +61,7 @@ const Login = () => {
           <button className="btn btn-neutral mt-4">Login</button>
         </fieldset>
       </form>
-          <GoogleLogin/>
+      <GoogleLogin />
     </div>
   );
 };

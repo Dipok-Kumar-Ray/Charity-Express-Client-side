@@ -10,6 +10,7 @@ import Login from "../Authentications/Login";
 import AuthLayout from "../layouts/AuthLayout";
 import AddDonation from "../donations/AddDonation";
 import NotFound from "../pages/NotFound";
+import AboutUs from "../pages/AboutUs/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: 'donationDetails/:id',
         element: <DonationDetails/>
+      },
+      {
+        path: 'aboutUs',
+        element: <AboutUs></AboutUs>
       }
     ],
   },

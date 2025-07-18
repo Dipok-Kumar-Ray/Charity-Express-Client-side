@@ -29,7 +29,7 @@ const {user, logOut} = useAuth();
         </>
       }
       <li>
-        <NavLink to="/about">About Us</NavLink>
+        <NavLink to="/aboutUs">About Us</NavLink>
       </li>
     </>
   );

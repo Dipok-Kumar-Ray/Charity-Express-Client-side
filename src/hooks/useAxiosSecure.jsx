@@ -1,58 +1,53 @@
+// // src/hooks/useAxiosSecure.js
+// import axios from "axios";
+// import { useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
-import useAuth from "./useAuth";
 import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 const axiosSecure = axios.create({
-  baseURL: `http://localhost:3000`
+  baseURL: `http://localhost:3000`, // তোমার backend API
 });
 
 const useAxiosSecure = () => {
-  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const interceptor = axiosSecure.interceptors.request.use(
-      config => {
-        config.headers.Authorization = `Bearer ${user?.accessToken}`;
+    // ✅ Request interceptor
+    const requestInterceptor = axiosSecure.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem("access-token");
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
         return config;
       },
-      error => Promise.reject(error)
+      (error) => Promise.reject(error)
     );
 
+    // ✅ Response interceptor
+    const responseInterceptor = axiosSecure.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.status === 401) {
+          console.warn("Unauthorized - redirecting to login");
+          localStorage.removeItem("access-token");
+          navigate("/login");
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    // ✅ Cleanup interceptor
     return () => {
-      axiosSecure.interceptors.request.eject(interceptor); // cleanup interceptor
+      axiosSecure.interceptors.request.eject(requestInterceptor);
+      axiosSecure.interceptors.response.eject(responseInterceptor);
     };
-  }, [user]);
+  }, [navigate]);
 
   return axiosSecure;
 };
 
 export default useAxiosSecure;
-
-
-
-
-
-// import axios from "axios";
-// import useAuth from "./useAuth";
-
-// const axiosSecure = axios.create({
-//   baseURL: `http://localhost:3000`
-// });
-
-// const useAxiosSecure = () => {
-//   const { user } = useAuth();
-
-//   axiosSecure.interceptors.request.use(
-//     config => {
-//       config.headers.Authorization = `Bearer ${user?.accessToken}`;
-//       return config;
-//     },
-//     error => {
-//       return Promise.reject(error);
-//     }
-//   );
-
-//   return axiosSecure; //  returning axios instance directly
-// };
-
-// export default useAxiosSecure;
