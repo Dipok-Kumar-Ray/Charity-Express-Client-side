@@ -58,15 +58,31 @@ const DashboardLayout = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/dashboard/myDonations" className="flex items-center gap-2">
-          <FaBoxOpen /> My Donations
+        <NavLink to="/dashboard/my-profile" className="flex items-center gap-2">
+          <FaBoxOpen /> My Profile
         </NavLink>
       </li>
       <li>
-        <NavLink to="/dashboard/paymentHistory" className="flex items-center gap-2">
-          <FaHistory /> Payment History
+        <NavLink to="/dashboard/request-charity" className="flex items-center gap-2">
+          <FaBoxOpen /> Charity Request
         </NavLink>
       </li>
+      <li>
+        <NavLink to="/dashboard/favorites" className="flex items-center gap-2">
+          <FaBoxOpen />Favorites
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/my-reviews" className="flex items-center gap-2">
+          <FaBoxOpen /> My Reviews
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/transaction-history" className="flex items-center gap-2">
+          <FaBoxOpen /> Transaction History
+        </NavLink>
+      </li>
+
     </ul>
         </ul>
       </div>
