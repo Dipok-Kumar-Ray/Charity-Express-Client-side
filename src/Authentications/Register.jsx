@@ -3,9 +3,11 @@ import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import useAxios from "../hooks/useAxios";
 import axios from "axios";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,6 +23,14 @@ const Register = () => {
     createUser(data.email, data.password)
       .then(async (result) => {
         console.log(result.user);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate('/');
 
         // update userinfo in the database
         const userInfo = {
@@ -136,7 +146,7 @@ const Register = () => {
             </small>
           </p>
         </form>
-            {/* <CharityLogo/> */}
+        {/* <CharityLogo/> */}
       </div>
     </div>
   );

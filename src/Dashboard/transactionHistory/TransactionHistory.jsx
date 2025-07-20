@@ -1,61 +1,82 @@
-// // components/TransactionHistory.jsx
-
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 
-// import { useEffect, useState } from "react";
-// import useAuth from "../../hooks/useAuth";
-// import axios from "axios";
-
 const TransactionHistory = () => {
   const { user } = useAuth();
   const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (user?.email) {
       axios
         .get(`http://localhost:3000/transactions?email=${user.email}`)
-        .then((res) => {
-          console.log("Transactions response:", res.data);
-          setTransactions(Array.isArray(res.data) ? res.data : []);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error("Error fetching transactions:", err);
-          setError("Failed to fetch data");
-          setLoading(false);
-        });
+        .then((res) => setTransactions(res.data))
+        .catch((err) => console.error(err));
     }
   }, [user]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  const handleDelete = async (id) => {
+    const confirm = window.confirm("Are you sure to delete this transaction?");
+    if (!confirm) return;
+
+    try {
+      await axios.delete(`http://localhost:3000/transactions/${id}`);
+      setTransactions((prev) => prev.filter((t) => t._id !== id));
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
+  };
 
   return (
     <div className="overflow-x-auto">
-      <table className="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((tx) => (
-            <tr key={tx._id}>
-              <td>{tx.transactionId || "N/A"}</td>
-              <td>${tx.amount || 0}</td>
-              <td>{new Date(tx.date).toLocaleDateString()}</td>
-              <td>{tx.status || "pending"}</td>
+      <h2 className="text-2xl font-bold mb-4">Transaction History</h2>
+      {transactions.length === 0 ? (
+        <p>No transactions found.</p>
+      ) : (
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Transaction ID</th>
+              <th>Amount</th>
+              <th>Request Date</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {transactions.map((t, idx) => (
+              <tr key={t._id}>
+                <td>{idx + 1}</td>
+                <td>{t.transactionId}</td>
+                <td>${t.amount}</td>
+                <td>{new Date(t.date).toLocaleDateString()}</td>
+                <td>
+                  <span
+                    className={`badge ${
+                      t.status === "Approved"
+                        ? "badge-success"
+                        : t.status === "Rejected"
+                        ? "badge-error"
+                        : "badge-warning"
+                    }`}
+                  >
+                    {t.status}
+                  </span>
+                </td>
+                <td>
+                  <button
+                    onClick={() => handleDelete(t._id)}
+                    className="btn btn-xs btn-error"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

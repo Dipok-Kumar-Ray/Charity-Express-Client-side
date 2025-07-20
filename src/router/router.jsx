@@ -15,6 +15,11 @@ import RequestCharity from "../Dashboard/requestCharity/RequestCharity";
 import Favorites from "../Dashboard/favorites/Favorites";
 import MyReviews from "../Dashboard/myReviews/MyReviews";
 import TransactionHistory from "../Dashboard/transactionHistory/TransactionHistory";
+import SuccessPage from "../Dashboard/transactionHistory/successPage/SuccessPage";
+import AdminDashboard from "../Dashboard/AmdinDashboard/AdminDashboard";
+import UserManage from "../Dashboard/AmdinDashboard/UserManage";
+import Forbidden from "../routes/Forbidden";
+import AdminSecure from "../routes/AdminSecure";
 
 export const router = createBrowserRouter([
   {
@@ -89,6 +94,28 @@ export const router = createBrowserRouter([
     },
   ],
 },
+{
+  path: 'success',
+  element: SuccessPage
+},
+{
+  path: '/adminDashboard',
+  element: <AdminSecure> <AdminDashboard ></AdminDashboard></AdminSecure>,
+  children: [
+    {
+      index: true,
+      element: <UserManage></UserManage>
+    },
+    
+  ]
+  
+},
+
+{
+      path: '/forbidden',
+      element: <Forbidden></Forbidden>
+    }
+
 
   // {
   //   path: "*",

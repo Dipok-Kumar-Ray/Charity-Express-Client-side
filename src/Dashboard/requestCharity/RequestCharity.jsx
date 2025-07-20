@@ -1,3 +1,8 @@
+// import { useState } from "react";
+// import useAuth from "../../hooks/useAuth";
+// import axios from "axios";
+// import { loadStripe } from "@stripe/stripe-js";
+
 import { loadStripe } from "@stripe/stripe-js";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
@@ -8,30 +13,45 @@ const stripePromise = loadStripe(import.meta.env.VITE_payment_Key);
 const RequestCharity = () => {
   const { user } = useAuth();
   const [orgName, setOrgName] = useState("");
-  const [mission, setMission] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const stripe = await stripePromise;
-    const { data } = await axios.post("/create-checkout-session", {
-      email: user.email,
-      name: user.displayName,
-      organization: orgName,
-      mission,
-    });
+    const donationInfo = {
+      orgName, //  Backend expects this
+      email: user?.email,
+    };
 
-    stripe.redirectToCheckout({ sessionId: data.id });
+    try {
+      const res = await axios.post("http://localhost:3000/create-checkout-session", donationInfo);
+
+      if (res.data.url) {
+        window.location.href = res.data.url; // ✅ Redirect to Stripe checkout
+      } else {
+        console.error("Stripe session URL not found.");
+      }
+    } catch (error) {
+      console.error("Stripe checkout error:", error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-6 rounded shadow">
-      <input value={user.displayName} readOnly className="input input-bordered w-full" />
-      <input value={user.email} readOnly className="input input-bordered w-full" />
-      <input onChange={e => setOrgName(e.target.value)} placeholder="Organization Name" className="input input-bordered w-full" required />
-      <textarea onChange={e => setMission(e.target.value)} placeholder="Mission Statement" className="textarea textarea-bordered w-full" required></textarea>
-      <button type="submit" className="btn btn-primary">Pay $25</button>
-    </form>
+    <div className="max-w-md mx-auto mt-10">
+      <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded">
+        <h2 className="text-xl font-bold">Request Charity Role</h2>
+        <input
+          type="text"
+          placeholder="Your Organization Name"
+          className="input input-bordered w-full"
+          value={orgName}
+          onChange={(e) => setOrgName(e.target.value)}
+          required
+        />
+        <button type="submit" className="btn btn-primary w-full">
+          Proceed to Payment
+        </button>
+      </form>
+    </div>
   );
 };
 

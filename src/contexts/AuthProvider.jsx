@@ -9,47 +9,38 @@ const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-
-const createUser = (email, password) =>{
+    const createUser = (email, password) => {
         setLoading(true);
+        return createUserWithEmailAndPassword(auth, email, password);
+    };
 
-        return createUserWithEmailAndPassword(auth, email, password)
-    }
-
-    const signIn = (email, password) =>{
+    const signIn = (email, password) => {
         setLoading(true);
-        return signInWithEmailAndPassword(auth, email, password)
-    }
+        return signInWithEmailAndPassword(auth, email, password);
+    };
 
-    const signInWithGoogle = () =>{
+    const signInWithGoogle = () => {
         setLoading(true);
         return signInWithPopup(auth, googleProvider);
-    }
+    };
 
-    
-        const updateUserProfile = profileInfo => {
-            return updateProfile (auth.currentUser, profileInfo)
-        }
-    
+    const updateUserProfile = (profileInfo) => {
+        return updateProfile(auth.currentUser, profileInfo);
+    };
 
-    const logOut = () =>{
-        setLoading(true)
+    const logOut = () => {
+        setLoading(true);
         return signOut(auth);
-    }
+    };
 
-    useEffect(()=>{
-        const unSubscribe = onAuthStateChanged(auth, currentUser => {
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-            // console.log('user in the auth state change', currentUser);
             setLoading(false);
-        })
+        });
 
-        return () => {
-            unSubscribe();
-        }
-    },[])
-
-
+        return () => unSubscribe();
+    }, []);
 
     const authInfo = {
         user,
@@ -59,12 +50,12 @@ const createUser = (email, password) =>{
         logOut,
         signInWithGoogle,
         updateUserProfile,
+    };
 
-    }
     return (
-       <AuthContext value={authInfo}>
-        {children}
-       </AuthContext>
+        <AuthContext.Provider value={authInfo}>
+            {children}
+        </AuthContext.Provider>
     );
 };
 
