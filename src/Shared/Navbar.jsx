@@ -21,20 +21,18 @@ const {user, logOut} = useAuth();
       <li>
         <NavLink to="/allDonation">All Donations</NavLink>
       </li>
-      {
-        user && <>
+      
         <li>
         <NavLink to="/dashboard">Dashboard</NavLink>
-      </li>
-        </>
-      }
+      </li>      
+      
       <li>
         <NavLink to="/aboutUs">About Us</NavLink>
       </li>
     </>
   );
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className=" navbar fixed top-0 z-50 bg-base-200 shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -68,22 +66,32 @@ const {user, logOut} = useAuth();
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
-      <div className="navbar-end">
-        {user ? (
-          <button onClick={handleSignOut} className="btn ">
-            Log Out
-          </button>
-        ) : (
-          <>
-            <NavLink className="btn" to="/register">
-              Register
-            </NavLink>
-            <NavLink className="btn" to="/login">
-              Login
-            </NavLink>
-          </>
-        )}
+<div className="navbar-end">
+  {user ? ( 
+    <div className="flex items-center gap-2 ">
+      <button onClick={handleSignOut} className="btn btn-accent">
+        Log Out
+      </button>
+      <div className="tooltip tooltip-bottom" data-tip={user.displayName || "No Name"}>
+        <img
+          src={user.photoURL || "https://i.ibb.co/ZYW3VTp/brown-brim.png"}
+          alt="Profile"
+          className="w-10 h-10 rounded-full border-2 border-primary"
+        />
       </div>
+    </div>
+  ) : (
+    <>
+      <NavLink className="btn" to="/register">
+        Register
+      </NavLink>
+      <NavLink className="btn" to="/login">
+        Login
+      </NavLink>
+    </>
+  )}
+</div>
+
     </div>
   );
 };

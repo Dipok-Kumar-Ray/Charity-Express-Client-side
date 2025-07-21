@@ -5,6 +5,8 @@ import useAxios from "../hooks/useAxios";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import LoginAnination from "../../src/assets/TemanASN Home Mobile.json";
+import Lottie from "lottie-react";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ const Register = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate('/');
+        // navigate('/');
 
         // update userinfo in the database
         const userInfo = {
@@ -54,6 +56,7 @@ const Register = () => {
           })
           .catch((error) => {
             console.log(error);
+            navigate("/");
           });
       })
       .catch((error) => {
@@ -77,76 +80,88 @@ const Register = () => {
   };
 
   return (
-    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-      <div className="card-body">
-        <h1 className="text-5xl font-bold">Create Account</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <fieldset className="fieldset">
-            {/* name field */}
-            <label className="label">Your Name</label>
-            <input
-              type="text"
-              {...register("name", { required: true })}
-              className="input"
-              placeholder="Your Name"
-            />
-            {errors.email?.type === "required" && (
-              <p className="text-red-500">Name is required</p>
-            )}
-            {/* name field */}
-            <label className="label">Your Name</label>
-            <input
-              type="file"
-              onChange={handleImageUpload}
-              className="input"
-              placeholder="Your Profile picture"
-            />
+    <div className="hero-content flex flex-col-reverse md:flex-row items-center justify-between w-full px-4 lg:px-16 py-10 gap-10">
+      {" "}
+      <div className="flex card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <div className="card-body">
+          <h1 className="text-5xl font-bold">Create Account</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <fieldset className="fieldset">
+              {/* name field */}
+              <label className="label">Your Name</label>
+              <input
+                type="text"
+                {...register("name", { required: true })}
+                className="input"
+                placeholder="Your Name"
+              />
+              {errors.email?.type === "required" && (
+                <p className="text-red-500">Name is required</p>
+              )}
+              {/* name field */}
+              <label className="label">Your Name</label>
+              <input
+                type="file"
+                onChange={handleImageUpload}
+                className="input"
+                placeholder="Your Profile picture"
+              />
 
-            {/* email field */}
-            <label className="label">Email</label>
-            <input
-              type="email"
-              {...register("email", { required: true })}
-              className="input"
-              placeholder="Email"
-            />
-            {errors.email?.type === "required" && (
-              <p className="text-red-500">Email is required</p>
-            )}
-            {/* password field*/}
-            <label className="label">Password</label>
-            <input
-              type="password"
-              {...register("password", { required: true, minLength: 6 })}
-              className="input"
-              placeholder="Password"
-            />
-            {errors.password?.type === "required" && (
-              <p className="text-red-500">Password is required</p>
-            )}
-            {errors.password?.type === "minLength" && (
-              <p className="text-red-500">
-                Password must be 6 characters or longer
-              </p>
-            )}
+              {/* email field */}
+              <label className="label">Email</label>
+              <input
+                type="email"
+                {...register("email", { required: true })}
+                className="input"
+                placeholder="Email"
+              />
+              {errors.email?.type === "required" && (
+                <p className="text-red-500">Email is required</p>
+              )}
+              {/* password field*/}
+              <label className="label">Password</label>
+              <input
+                type="password"
+                {...register("password", { required: true, minLength: 6 })}
+                className="input"
+                placeholder="Password"
+              />
+              {errors.password?.type === "required" && (
+                <p className="text-red-500">Password is required</p>
+              )}
+              {errors.password?.type === "minLength" && (
+                <p className="text-red-500">
+                  Password must be 6 characters or longer
+                </p>
+              )}
 
-            <div>
-              <a className="link link-hover">Forgot password?</a>
-            </div>
-            <button className="btn btn-primary text-black mt-4">
-              Register
-            </button>
-          </fieldset>
-          <p>
-            <small>
-              Already have an account?{" "}
-              <Link className="btn btn-link" to="/login">
-                Login
-              </Link>
-            </small>
-          </p>
-        </form>
-        {/* <CharityLogo/> */}
+              <div>
+                <a className="link link-hover">Forgot password?</a>
+              </div>
+              <button className="btn btn-primary text-black mt-4">
+                Register
+              </button>
+            </fieldset>
+            <p>
+              <small>
+                Already have an account?{" "}
+                <Link className="btn btn-link" to="/login">
+                  Login
+                </Link>
+              </small>
+            </p>
+          </form>
+          {/* <CharityLogo/> */}
+        </div>
+        {/* Lottie Animation Section */}
+        {/* Lottie Animation Section */}
+      </div>
+      <div className="w-full md:w-1/2 flex justify-center">
+        <Lottie
+          animationData={LoginAnination}
+          loop={true}
+          className="w-[250px] sm:w-[300px] md:w-[400px]"
+        />
       </div>
     </div>
   );

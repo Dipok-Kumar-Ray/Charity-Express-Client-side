@@ -20,6 +20,7 @@ import AdminDashboard from "../Dashboard/AmdinDashboard/AdminDashboard";
 import UserManage from "../Dashboard/AmdinDashboard/UserManage";
 import Forbidden from "../routes/Forbidden";
 import AdminSecure from "../routes/AdminSecure";
+import AddDonation from "../donations/AddDonation";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
     </PrivateRoute>
   ),
   children: [
+    {
+      path: 'addDonation',
+      element: <AddDonation></AddDonation>
+    },
     {
       path: "my-profile",
       element: <MyProfile />,

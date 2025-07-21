@@ -53,7 +53,7 @@ const DashboardLayout = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/donations" className="flex items-center gap-2">
+        <NavLink to="/dashboard/addDonation" className="flex items-center gap-2">
           <FaHome /> Add Donations
         </NavLink>
       </li>

@@ -44,7 +44,6 @@ const AddDonation = () => {
         Add Donation
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
         {/* Donation Title */}
         <div>
           <label className="block font-medium mb-1">Donation Title</label>
@@ -53,7 +52,9 @@ const AddDonation = () => {
             placeholder="e.g. Surplus Pastries"
             className="w-full border p-2 rounded"
           />
-          {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+          {errors.title && (
+            <p className="text-red-500">{errors.title.message}</p>
+          )}
         </div>
 
         {/* Food Type */}
@@ -69,18 +70,24 @@ const AddDonation = () => {
             <option value="Bakery">Bakery</option>
             <option value="Others">Others</option>
           </select>
-          {errors.foodType && <p className="text-red-500">{errors.foodType.message}</p>}
+          {errors.foodType && (
+            <p className="text-red-500">{errors.foodType.message}</p>
+          )}
         </div>
 
         {/* Quantity */}
         <div>
-          <label className="block font-medium mb-1">Quantity (kg or portions)</label>
+          <label className="block font-medium mb-1">
+            Quantity (kg or portions)
+          </label>
           <input
             {...register("quantity", { required: "Quantity is required" })}
             placeholder="e.g. 10"
             className="w-full border p-2 rounded"
           />
-          {errors.quantity && <p className="text-red-500">{errors.quantity.message}</p>}
+          {errors.quantity && (
+            <p className="text-red-500">{errors.quantity.message}</p>
+          )}
         </div>
 
         {/* Pickup Time Window */}
@@ -91,7 +98,9 @@ const AddDonation = () => {
             placeholder="e.g. 4:00 PM - 6:00 PM"
             className="w-full border p-2 rounded"
           />
-          {errors.pickupTime && <p className="text-red-500">{errors.pickupTime.message}</p>}
+          {errors.pickupTime && (
+            <p className="text-red-500">{errors.pickupTime.message}</p>
+          )}
         </div>
 
         {/* Location */}
@@ -102,17 +111,15 @@ const AddDonation = () => {
             placeholder="e.g. 123 Main St, City"
             className="w-full border p-2 rounded"
           />
-          {errors.location && <p className="text-red-500">{errors.location.message}</p>}
+          {errors.location && (
+            <p className="text-red-500">{errors.location.message}</p>
+          )}
         </div>
 
         {/* Image File */}
         <div>
           <label className="block font-medium mb-1">Image</label>
-          <input
-            type="file"
-            {...register("image")}
-            className="w-full"
-          />
+          <input type="text" {...register("image")} className="w-full" />
         </div>
 
         {/* Status Field */}
@@ -127,7 +134,9 @@ const AddDonation = () => {
             <option value="Picked Up">Picked Up</option>
             <option value="Expired">Expired</option>
           </select>
-          {errors.status && <p className="text-red-500">{errors.status.message}</p>}
+          {errors.status && (
+            <p className="text-red-500">{errors.status.message}</p>
+          )}
         </div>
 
         {/* Restaurant Name & Email */}
@@ -135,7 +144,9 @@ const AddDonation = () => {
           <div>
             <label className="block font-medium mb-1">Restaurant Name</label>
             <input
-              {...register("restaurantName", { required: "Restaurant name is required" })}
+              {...register("restaurantName", {
+                required: "Restaurant name is required",
+              })}
               defaultValue="green view restaurant ltd"
               className="w-full border p-2 rounded"
               readOnly
