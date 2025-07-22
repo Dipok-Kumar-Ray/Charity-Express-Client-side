@@ -1,12 +1,58 @@
-# React + Vite
+  🌍 CharityConnect — Empowering Donations, Connecting Compassion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  A full-stack donation management platform that bridges donors and charities, enabling efficient food donation, request handling, and community engagement.
 
-Currently, two official plugins are available:
+• 🌐 **Live Links**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    🚀 Frontend: 
+    🔗 Backend API: 
 
-## Expanding the ESLint configuration
+  🔑 **Key Features**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+  ◦ 👥 For General Users  
+     🔐 Secure Firebase Authentication (Login/Register)  
+     🔎 Browse and search all available food donations  
+     📄 Detailed donation pages including title, description, pickup time, and location  
+     💖 Save donations to personal favorites list  
+     📝 Submit reviews with rating and comments  
+     📂 Personal dashboard to view favorites and submitted reviews  
+
+  ◦ 🧑‍💼 For Charity Users  
+     💳 Upgrade to Charity role via Stripe payment  
+     📦 Post new donation listings with comprehensive details  
+     📬 Manage incoming donation requests (Approve/Reject)  
+     ✅ Confirm pickup status of accepted donations  
+     👀 Access user reviews related to their donations  
+
+ 🛠️ **Technology Stack**
+
+  ◦ Frontend  
+     ⚛️ React.js  
+     🌐 React Router DOM  
+     🎨 Tailwind CSS with DaisyUI  
+     🔥 Firebase Authentication  
+     🔄 Axios for API calls  
+     📋 React Hook Form for form management  
+     ⚠️ SweetAlert2 and React Toastify for notifications  
+
+  ◦ Backend  
+     🧠 Node.js with Express.js  
+     🍃 MongoDB with Mongoose ODM  
+     🔐 JWT for secure authentication  
+     💳 Stripe API integration for payments  
+     🌍 CORS configuration and environment management  
+
+  🧑‍💻 **Author**
+
+   **Name:** Dipok Kumar Ray  
+   **Qualification:** Diploma in Computer Science & Technology (CST)  
+   **Email:** dipok7316@gmail.com  
+   **GitHub:** [https://github.com/Dipok-Kumar-Ray](https://github.com/Dipok-Kumar-Ray)  
+   **Portfolio:**  
+
+ 📄 **License**
+
+   This project is licensed under the [MIT License](LICENSE).
+
+
+ Feel free to contribute or suggest improvements! Pull requests are welcome.
