@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import useAxios from "../hooks/useAxios";
-import axios from "axios";
-import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import LoginAnination from "../../src/assets/TemanASN Home Mobile.json";
+import axios from "axios";
 import Lottie from "lottie-react";
+import LoginAnination from "../../src/assets/TemanASN Home Mobile.json";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,149 +19,122 @@ const Register = () => {
   const [profilePic, setProfilePic] = useState("");
   const axiosInstance = useAxios();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      // create user in Firebase Auth
+      const result = await createUser(data.email, data.password);
 
-    createUser(data.email, data.password)
-      .then(async (result) => {
-        console.log(result.user);
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Your work has been saved",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        // navigate('/');
+      // save user info in your backend
+      const userInfo = {
+        email: data.email,
+        role: "user",
+        created_at: new Date().toISOString(),
+        last_log_in: new Date().toISOString(),
+      };
+      await axiosInstance.post("/users", userInfo);
 
-        // update userinfo in the database
-        const userInfo = {
-          email: data.email,
-          role: "user", // default role
-          created_at: new Date().toISOString(),
-          last_log_in: new Date().toISOString(),
-        };
+      // update Firebase user profile
+      const userProfile = {
+        displayName: data.name,
+        photoURL: profilePic,
+      };
+      await updateUserProfile(userProfile);
 
-        const userRes = await axiosInstance.post("/users", userInfo);
-        console.log(userRes.data);
-
-        // update user profile in firebase
-        const userProfile = {
-          displayName: data.name,
-          photoURL: profilePic,
-        };
-        updateUserProfile(userProfile)
-          .then(() => {
-            console.log("profile name pic updated");
-          })
-          .catch((error) => {
-            console.log(error);
-            navigate("/");
-          });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      Swal.fire("Success", "Account created successfully", "success");
+      navigate("/");
+    } catch (error) {
+      Swal.fire("Error", error.message, "error");
+    }
   };
 
   const handleImageUpload = async (e) => {
     const image = e.target.files[0];
-    console.log(image);
-
     const formData = new FormData();
     formData.append("image", image);
 
     const imagUploadUrl = `https://api.imgbb.com/1/upload?key=${
       import.meta.env.VITE_image_upload_key
     }`;
-    const res = await axios.post(imagUploadUrl, formData);
 
-    setProfilePic(res.data.data.url);
+    try {
+      const res = await axios.post(imagUploadUrl, formData);
+      setProfilePic(res.data.data.url);
+    } catch (error) {
+      Swal.fire("Error", "Image upload failed", error);
+    }
   };
 
   return (
     <div className="hero-content flex flex-col-reverse md:flex-row items-center justify-between w-full px-4 lg:px-16 py-10 gap-10">
-      {" "}
       <div className="flex card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
         <div className="card-body">
-          <h1 className="text-5xl font-bold">Create Account</h1>
+          <h1 className="text-3xl font-bold mb-3">Create Account</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <fieldset className="fieldset">
-              {/* name field */}
-              <label className="label">Your Name</label>
-              <input
-                type="text"
-                {...register("name", { required: true })}
-                className="input"
-                placeholder="Your Name"
-              />
-              {errors.email?.type === "required" && (
-                <p className="text-red-500">Name is required</p>
-              )}
-              {/* name field */}
-              <label className="label">Your Name</label>
-              <input
-                type="file"
-                onChange={handleImageUpload}
-                className="input"
-                placeholder="Your Profile picture"
-              />
+            <label>Your Name</label>
+            <input
+              type="text"
+              {...register("name", { required: "Name is required" })}
+              className="input input-bordered w-full"
+              placeholder="Your Name"
+            />
+            {errors.name && (
+              <p className="text-red-500">{errors.name.message}</p>
+            )}
 
-              {/* email field */}
-              <label className="label">Email</label>
-              <input
-                type="email"
-                {...register("email", { required: true })}
-                className="input"
-                placeholder="Email"
-              />
-              {errors.email?.type === "required" && (
-                <p className="text-red-500">Email is required</p>
-              )}
-              {/* password field*/}
-              <label className="label">Password</label>
-              <input
-                type="password"
-                {...register("password", { required: true, minLength: 6 })}
-                className="input"
-                placeholder="Password"
-              />
-              {errors.password?.type === "required" && (
-                <p className="text-red-500">Password is required</p>
-              )}
-              {errors.password?.type === "minLength" && (
-                <p className="text-red-500">
-                  Password must be 6 characters or longer
-                </p>
-              )}
+            <label>Profile Picture</label>
+            <input
+              type="file"
+              onChange={handleImageUpload}
+              className="input input-bordered w-full"
+            />
 
-              <div>
-                <a className="link link-hover">Forgot password?</a>
-              </div>
-              <button className="btn btn-primary text-black mt-4">
-                Register
-              </button>
-            </fieldset>
-            <p>
-              <small>
-                Already have an account?{" "}
-                <Link className="btn btn-link" to="/login">
-                  Login
-                </Link>
-              </small>
-            </p>
+            <label>Email</label>
+            <input
+              type="email"
+              {...register("email", { required: "Email is required" })}
+              className="input input-bordered w-full"
+              placeholder="Email"
+            />
+            {errors.email && (
+              <p className="text-red-500">{errors.email.message}</p>
+            )}
+
+            <label>Password</label>
+            <input
+              type="password"
+              {...register("password", {
+                required: "Password is required",
+                validate: (value) => {
+                  if (value.length < 6)
+                    return "Password must be at least 6 characters";
+                  if (!/[A-Z]/.test(value))
+                    return "Password must include a capital letter";
+                  if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value))
+                    return "Password must include a special character";
+                  return true;
+                },
+              })}
+              className="input input-bordered w-full"
+              placeholder="Password"
+            />
+            {errors.password && (
+              <p className="text-red-500">{errors.password.message}</p>
+            )}
+
+            <button className="btn btn-primary w-full mt-4">Register</button>
           </form>
-          {/* <CharityLogo/> */}
+
+          <p className="mt-4 text-sm">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-500 underline">
+              Login
+            </Link>
+          </p>
         </div>
-        {/* Lottie Animation Section */}
-        {/* Lottie Animation Section */}
       </div>
+
       <div className="w-full md:w-1/2 flex justify-center">
-        <Lottie
-          animationData={LoginAnination}
-          loop={true}
-          className="w-[250px] sm:w-[300px] md:w-[400px]"
-        />
+        <Lottie animationData={LoginAnination} loop className="w-[300px]" />
       </div>
     </div>
   );

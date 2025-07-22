@@ -47,11 +47,11 @@ const DashboardLayout = () => {
           {/* Sidebar content here */}
           <CharityLogo/>
          <ul className="space-y-4 p-4 text-lg">
-      <li>
+      {/* <li>
         <NavLink to="/" className="flex items-center gap-2">
           <FaHome /> Home
         </NavLink>
-      </li>
+      </li> */}
       <li>
         <NavLink to="/dashboard/addDonation" className="flex items-center gap-2">
           <FaHome /> Add Donations
