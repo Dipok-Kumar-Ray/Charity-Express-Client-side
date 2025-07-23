@@ -20,11 +20,11 @@ import AdminSecure from "../routes/AdminSecure";
 import MyProfile from "../UserDashboardRole/myProfile/MyProfile";
 import MyReviews from "../UserDashboardRole/myReviews/MyReviews";
 import TransactionHistory from "../UserDashboardRole/transactionHistory/TransactionHistoy";
-import RestaurantDashboardLayout from "../RestaurantDashboardLayout/RestaurantDashboardLayout";
 import RestaurantProfile from "../RestaurantDashboardLayout/RestaurantProfile.jsx/RestaurantProfile";
 import AddDonation from "../RestaurantDashboardLayout/addDonation.jsx/AddDonation";
 import MyDonations from "../RestaurantDashboardLayout/myDonations/MyDonations";
 import RequestedDonations from "../RestaurantDashboardLayout/requestedDonation/RequestedDonations";
+import RestaurantRoute from "../RestaurantDashboardLayout/restaurantRoute/RestaurantRoute";
 
 export const router = createBrowserRouter([
   {
@@ -106,9 +106,11 @@ export const router = createBrowserRouter([
   ],
 },
 
+//restaurant dashboard
 {
   path:'/restaurant-dashboard',
-  element:<PrivateRoute><RestaurantDashboardLayout></RestaurantDashboardLayout></PrivateRoute>,
+  element:<RestaurantRoute><RestaurantDashboardLayout></RestaurantDashboardLayout></RestaurantRoute>,
+  
   children: [
     {
       path:'restaurant-profile' ,
@@ -129,10 +131,14 @@ export const router = createBrowserRouter([
   ]
 },
 
+//charity dashboard
 {
-  path: 'success',
-  element: SuccessPage
+  path: '/charity-dashboard',
+  element: 
+
 },
+
+//admin dashboard
 {
   path: '/adminDashboard',
   element: <AdminSecure> <AdminDashboard ></AdminDashboard></AdminSecure>,
@@ -144,6 +150,11 @@ export const router = createBrowserRouter([
     
   ]
   
+},
+
+{
+  path: 'success',
+  element: SuccessPage
 },
 
 {

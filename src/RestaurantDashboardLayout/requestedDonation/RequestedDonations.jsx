@@ -14,26 +14,36 @@ const RequestedDonations = () => {
     });
   }, [axiosSecure, user]);
 
-  const handleAction = async (id, donationId, action) => {
-    const res = await axiosSecure.patch(`/requests/${id}`, { action, donationId });
-    if (res.data.modifiedCount > 0) {
-      Swal.fire("Updated!", `Request ${action}ed successfully`, "success");
-      const updated = requests.map((req) =>
-        req._id === id ? { ...req, status: action } : req
-      );
-      setRequests(updated);
+  const handleStatusChange = async (id, donationId, status) => {
+    await axiosSecure.patch(`/requests/${id}`, { status, donationId });
+    Swal.fire("Success!", `Request ${status}`, "success");
+
+    // Update UI instantly
+    const updatedRequests = requests.map((req) =>
+      req._id === id ? { ...req, status } : req
+    );
+
+    // If accepted → auto reject others in UI
+    if (status === "Accepted") {
+      updatedRequests.forEach((req) => {
+        if (req.donationId === donationId && req._id !== id) {
+          req.status = "Rejected";
+        }
+      });
     }
+
+    setRequests(updatedRequests);
   };
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Requested Donations</h2>
+      <h2 className="text-center text-3xl font-bold mb-4">Requested Donations</h2>
       <div className="overflow-x-auto">
-        <table className="table w-full  shadow rounded">
+        <table className="table">
           <thead>
             <tr>
               <th>Donation</th>
-              <th>Type</th>
+              <th>Food Type</th>
               <th>Charity Name</th>
               <th>Email</th>
               <th>Pickup Time</th>
@@ -50,22 +60,26 @@ const RequestedDonations = () => {
                 <td>{req.charityEmail}</td>
                 <td>{req.pickupTime}</td>
                 <td>{req.status}</td>
-                <td className="space-x-2">
+                <td>
                   {req.status === "Pending" && (
-                    <>
+                    <div className="space-x-2">
                       <button
-                        onClick={() => handleAction(req._id, req.donationId, "Accepted")}
-                        className="btn btn-xs btn-success"
+                        onClick={() =>
+                          handleStatusChange(req._id, req.donationId, "Accepted")
+                        }
+                        className="btn btn-success btn-sm"
                       >
                         Accept
                       </button>
                       <button
-                        onClick={() => handleAction(req._id, req.donationId, "Rejected")}
-                        className="btn btn-xs btn-error"
+                        onClick={() =>
+                          handleStatusChange(req._id, req.donationId, "Rejected")
+                        }
+                        className="btn btn-error btn-sm"
                       >
                         Reject
                       </button>
-                    </>
+                    </div>
                   )}
                 </td>
               </tr>
