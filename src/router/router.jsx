@@ -10,17 +10,21 @@ import Login from "../Authentications/Login";
 import AuthLayout from "../layouts/AuthLayout";
 import NotFound from "../pages/NotFound";
 import AboutUs from "../pages/AboutUs/AboutUs";
-import MyProfile from "../Dashboard/myProfile/MyProfile";
 import RequestCharity from "../Dashboard/requestCharity/RequestCharity";
 import Favorites from "../Dashboard/favorites/Favorites";
-import MyReviews from "../Dashboard/myReviews/MyReviews";
-import TransactionHistory from "../Dashboard/transactionHistory/TransactionHistory";
 import SuccessPage from "../Dashboard/transactionHistory/successPage/SuccessPage";
 import AdminDashboard from "../Dashboard/AmdinDashboard/AdminDashboard";
 import UserManage from "../Dashboard/AmdinDashboard/UserManage";
 import Forbidden from "../routes/Forbidden";
 import AdminSecure from "../routes/AdminSecure";
-import AddDonation from "../donations/AddDonation";
+import MyProfile from "../UserDashboardRole/myProfile/MyProfile";
+import MyReviews from "../UserDashboardRole/myReviews/MyReviews";
+import TransactionHistory from "../UserDashboardRole/transactionHistory/TransactionHistoy";
+import RestaurantDashboardLayout from "../RestaurantDashboardLayout/RestaurantDashboardLayout";
+import RestaurantProfile from "../RestaurantDashboardLayout/RestaurantProfile.jsx/RestaurantProfile";
+import AddDonation from "../RestaurantDashboardLayout/addDonation.jsx/AddDonation";
+import MyDonations from "../RestaurantDashboardLayout/myDonations/MyDonations";
+import RequestedDonations from "../RestaurantDashboardLayout/requestedDonation/RequestedDonations";
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +69,7 @@ export const router = createBrowserRouter([
     ],
   },
 
+//users dashboard layout
 {
   path: "/dashboard",
   element: (
@@ -73,13 +78,14 @@ export const router = createBrowserRouter([
     </PrivateRoute>
   ),
   children: [
-    {
-      path: 'addDonation',
-      element: <AddDonation></AddDonation>
-    },
+    // {
+    //   path: 'addDonation',
+    //   element: <AddDonation></AddDonation>
+    // },
     {
       path: "my-profile",
-      element: <MyProfile />,
+      element: <MyProfile></MyProfile>
+      // element: <MyProfile />,
     },
     {
       path: "request-charity",
@@ -91,14 +97,38 @@ export const router = createBrowserRouter([
     },
     {
       path: "my-reviews",
-      element: <MyReviews />,
+      element: <MyReviews></MyReviews>
     },
     {
       path: "transaction-history",
-      element: <TransactionHistory />,
+      element: <TransactionHistory></TransactionHistory>
     },
   ],
 },
+
+{
+  path:'/restaurant-dashboard',
+  element:<PrivateRoute><RestaurantDashboardLayout></RestaurantDashboardLayout></PrivateRoute>,
+  children: [
+    {
+      path:'restaurant-profile' ,
+      element: <RestaurantProfile></RestaurantProfile>
+    },
+    {
+      path: 'addDonation',
+      element: <AddDonation></AddDonation>
+    },
+    {
+      path: 'my-donations',
+      element: <MyDonations></MyDonations>
+    },
+    {
+      path: 'requested-donations',
+      element: <RequestedDonations></RequestedDonations>
+    }
+  ]
+},
+
 {
   path: 'success',
   element: SuccessPage
