@@ -20,9 +20,9 @@ const MyProfile = () => {
           Role: user
         </span>
         {/* Optional: Edit Profile button */}
-        <button className="mt-3 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+        {/* <button className="mt-3 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
           Edit Profile
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -25,6 +25,13 @@ import AddDonation from "../RestaurantDashboardLayout/addDonation.jsx/AddDonatio
 import MyDonations from "../RestaurantDashboardLayout/myDonations/MyDonations";
 import RequestedDonations from "../RestaurantDashboardLayout/requestedDonation/RequestedDonations";
 import RestaurantRoute from "../RestaurantDashboardLayout/restaurantRoute/RestaurantRoute";
+import RestaurantDashboardLayout from "../RestaurantDashboardLayout/RestaurantDashboardLayout";
+import CharityProfile from "../CharityDashboardLayout/charityProfile/CharityProfile";
+import CharityDashboardLayout from "../CharityDashboardLayout/charityDashboardLayout/CharityDashboardLayout";
+import MyRequests from "../CharityDashboardLayout/myRequests/MyRequests";
+import MyPickups from "../CharityDashboardLayout/myPickups/MyPickups";
+import ReceivedDonations from "../CharityDashboardLayout/receivedDonations/ReceivedDonations";
+import TransactionsHistory from "../CharityDashboardLayout/transactionHistory/TransactionsHistory";
 
 export const router = createBrowserRouter([
   {
@@ -134,7 +141,31 @@ export const router = createBrowserRouter([
 //charity dashboard
 {
   path: '/charity-dashboard',
-  element: 
+  element: <PrivateRoute><CharityDashboardLayout></CharityDashboardLayout></PrivateRoute>,
+
+  children: [
+    {
+      path: 'charity-profile',
+      element: <CharityProfile></CharityProfile>,
+    },
+    {
+      path: 'my-requests',
+      element: <MyRequests></MyRequests>,
+    },
+    {
+      path: 'my-pickups',
+      element: <MyPickups></MyPickups>
+    },
+    {
+      path: 'received-donations',
+      element: <ReceivedDonations></ReceivedDonations>
+    },
+    {
+      path: 'transaction-history',
+      element: <TransactionsHistory></TransactionsHistory>
+    },
+
+  ]
 
 },
 

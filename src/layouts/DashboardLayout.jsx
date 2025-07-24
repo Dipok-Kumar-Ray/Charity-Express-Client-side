@@ -1,4 +1,11 @@
- import { FaPlusCircle, FaUser, FaHandsHelping, FaHeart, FaStar, FaMoneyCheckAlt } from "react-icons/fa";
+import {
+  FaPlusCircle,
+  FaUser,
+  FaHandsHelping,
+  FaHeart,
+  FaStar,
+  FaMoneyCheckAlt,
+} from "react-icons/fa";
 import { NavLink, Outlet } from "react-router";
 import CharityLogo from "../Shared/CharityLogo";
 
@@ -44,41 +51,50 @@ const DashboardLayout = () => {
         ></label>
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           {/* Sidebar content here */}
-          <CharityLogo/>
+          <CharityLogo />
 
-<ul className="space-y-4 p-4 text-lg">
-  <li>
-    <NavLink to="/dashboard/addDonation" className="flex items-center gap-2">
-      <FaPlusCircle /> Add Donations
-    </NavLink>
-  </li>
-  <li>
-    <NavLink to="/dashboard/my-profile" className="flex items-center gap-2">
-      <FaUser /> My Profile
-    </NavLink>
-  </li>
-  <li>
-    <NavLink to="/dashboard/request-charity" className="flex items-center gap-2">
-      <FaHandsHelping /> Charity Request
-    </NavLink>
-  </li>
-  <li>
-    <NavLink to="/dashboard/favorites" className="flex items-center gap-2">
-      <FaHeart /> Favorites
-    </NavLink>
-  </li>
-  <li>
-    <NavLink to="/dashboard/my-reviews" className="flex items-center gap-2">
-      <FaStar /> My Reviews
-    </NavLink>
-  </li>
-  <li>
-    <NavLink to="/dashboard/transaction-history" className="flex items-center gap-2">
-      <FaMoneyCheckAlt /> Transaction History
-    </NavLink>
-  </li>
-</ul>
-
+          <ul className="space-y-4 p-4 text-lg">
+            <li>
+              <NavLink
+                to="/dashboard/my-profile"
+                className="flex items-center gap-2"
+              >
+                <FaUser /> My Profile
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard/request-charity"
+                className="flex items-center gap-2"
+              >
+                <FaHandsHelping /> Charity Request
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard/favorites"
+                className="flex items-center gap-2"
+              >
+                <FaHeart /> Favorites
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard/my-reviews"
+                className="flex items-center gap-2"
+              >
+                <FaStar /> My Reviews
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard/transaction-history"
+                className="flex items-center gap-2"
+              >
+                <FaMoneyCheckAlt /> Transaction History
+              </NavLink>
+            </li>
+          </ul>
         </ul>
       </div>
     </div>
