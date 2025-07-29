@@ -3,7 +3,8 @@ import useAuth from "../hooks/useAuth";
 import CharityLogo from "./CharityLogo";
 
 const Navbar = () => {
-const {user, logOut} = useAuth();
+  const { user, logOut } = useAuth();
+
   const handleSignOut = () => {
     logOut()
       .then((result) => {
@@ -13,6 +14,10 @@ const {user, logOut} = useAuth();
         console.log(error.message);
       });
   };
+
+  // role কে lowercase করে নেওয়া যাতে case mismatch না হয়
+  const role = user?.role?.toLowerCase();
+
   const navItems = (
     <>
       <li>
@@ -21,18 +26,41 @@ const {user, logOut} = useAuth();
       <li>
         <NavLink to="/allDonation">All Donations</NavLink>
       </li>
-      
-        <li>
-        <NavLink to="/dashboard">Dashboard</NavLink>
-      </li>      
-      
+
+      <ul>
+        {role === "user" && (
+          <li>
+            <NavLink to="/dashboard">User Dashboard</NavLink>
+          </li>
+        )}
+
+        {role === "restaurant" && (
+          <li>
+            <NavLink to="/restaurant-dashboard">Restaurant Dashboard</NavLink>
+          </li>
+        )}
+
+        {role === "charity" && (
+          <li>
+            <NavLink to="/charity-dashboard">Charity Dashboard</NavLink>
+          </li>
+        )}
+
+        {role === "admin" && (
+          <li>
+            <NavLink to="/admin-dashboard">Admin Dashboard</NavLink>
+          </li>
+        )}
+      </ul>
+
       <li>
         <NavLink to="/aboutUs">About Us</NavLink>
       </li>
     </>
   );
+
   return (
-    <div className=" navbar fixed top-0 z-50 bg-base-200 shadow-sm">
+    <div className="navbar fixed top-0 z-50 bg-base-200 shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -43,13 +71,12 @@ const {user, logOut} = useAuth();
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              {" "}
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M4 6h16M4 12h8m-8 6h16"
-              />{" "}
+              />
             </svg>
           </div>
           <ul
@@ -60,38 +87,37 @@ const {user, logOut} = useAuth();
           </ul>
         </div>
         <button className="btn btn-ghost text-xl">
-          <CharityLogo/>
+          <CharityLogo />
         </button>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
-<div className="navbar-end">
-  {user ? ( 
-    <div className="flex items-center gap-2 ">
-      <button onClick={handleSignOut} className="btn btn-accent">
-        Log Out
-      </button>
-      <div className="tooltip tooltip-bottom" data-tip={user.displayName || "No Name"}>
-        <img
-          src={user.photoURL || "https://i.ibb.co/ZYW3VTp/brown-brim.png"}
-          alt="Profile"
-          className="w-10 h-10 rounded-full border-2 border-primary"
-        />
+      <div className="navbar-end">
+        {user ? (
+          <div className="flex items-center gap-2 ">
+            <button onClick={handleSignOut} className="rounded-4xl btn btn-accent">
+              Log Out
+            </button>
+            <div
+              className="tooltip tooltip-bottom"
+              data-tip={user.displayName || "No Name"}
+            >
+              <img
+                src={user.photoURL || "https://i.ibb.co/ZYW3VTp/brown-brim.png"}
+                alt="Profile"
+                className="w-10 h-10 rounded-full border-2 border-primary"
+              />
+            </div>
+          </div>
+        ) : (
+          <>
+            <NavLink className="btn btn-primary btn-sm" to="/login">
+              Login
+            </NavLink>
+          </>
+        )}
       </div>
-    </div>
-  ) : (
-    <>
-      <NavLink className="btn" to="/register">
-        Register
-      </NavLink>
-      <NavLink className="btn" to="/login">
-        Login
-      </NavLink>
-    </>
-  )}
-</div>
-
     </div>
   );
 };

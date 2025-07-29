@@ -9,28 +9,28 @@ const AddDonation = () => {
 
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = async (data) => {
-    const donationData = {
-      title: data.title,
-      foodType: data.foodType,
-      quantity: data.quantity,
-      pickupTime: data.pickupTime,
-      location: data.location,
-      image: data.image,
-      restaurantName: user.displayName,
-      restaurantEmail: user.email,
-    };
-
-    try {
-      const res = await axiosSecure.post("/donations", donationData);
-      if (res.data.insertedId) {
-        Swal.fire("Success!", "Donation added successfully", "success");
-        reset();
-      }
-    } catch (error) {
-      Swal.fire("Error!", "Something went wrong", error);
-    }
+ const onSubmit = async (data) => {
+  const donationData = {
+    title: data.title,
+    foodType: data.foodType,
+    quantity: data.quantity,
+    pickupTime: data.pickupTime,
+    location: data.location,
+    image: data.image,
+    restaurantName: user?.displayName || "",
+    restaurantEmail: user?.email || "",
   };
+
+  try {
+    const res = await axiosSecure.post("/donations", donationData);
+    if (res.data.insertedId) {
+      Swal.fire("Success!", "Donation added successfully", "success");
+      reset();
+    }
+  } catch (error) {
+    Swal.fire("Error!", "Something went wrong", "error");
+  }
+};
 
   return (
     <div className="max-w-lg mx-auto  p-6 rounded shadow">
@@ -93,22 +93,22 @@ const AddDonation = () => {
 
         <div>
           <label className="block font-medium mb-1">Restaurant Name</label>
-          <input
-            type="text"
-            value={user.displayName}
-            readOnly
-            className="input input-bordered w-full "
-          />
+         <input
+  type="text"
+  value={user?.displayName || ""}
+  readOnly
+  className="input input-bordered w-full "
+/>
         </div>
 
         <div>
           <label className="block font-medium mb-1">Restaurant Email</label>
           <input
-            type="email"
-            value={user.email}
-            readOnly
-            className="input input-bordered w-full "
-          />
+  type="email"
+  value={user?.email || ""}
+  readOnly
+  className="input input-bordered w-full "
+/>
         </div>
 
         <button type="submit" className="btn btn-success w-full">

@@ -2,16 +2,17 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
-const RequestModal = ({ donation, user, onClose }) => {
-  const { register, handleSubmit, reset } = useForm();
+const RequestModal = ({ donation, user, onClose, onSuccess }) => {
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
     const requestData = {
       donationId: donation._id,
       donationTitle: donation.title,
+      restaurantId: donation.restaurantId,
       restaurantName: donation.restaurantName,
-      charityName: user.displayName,
+      charityName: user.displayName || user.name,
       charityEmail: user.email,
       requestDescription: data.requestDescription,
       pickupTime: data.pickupTime,
@@ -24,8 +25,9 @@ const RequestModal = ({ donation, user, onClose }) => {
       Swal.fire("Success", "Request submitted successfully", "success");
       reset();
       onClose();
-    } catch (err) {
-      Swal.fire("Error", "Failed to submit request",err);
+      if (onSuccess) onSuccess();
+    } catch (error) {
+      Swal.fire("Error", error.response?.data?.message || "Failed to submit request", "error");
     }
   };
 
@@ -37,6 +39,7 @@ const RequestModal = ({ donation, user, onClose }) => {
       >
         <h2 className="text-2xl font-bold mb-2">Request Donation</h2>
 
+        {/* Donation Title */}
         <div>
           <label className="block text-sm font-medium">Donation Title</label>
           <input
@@ -47,6 +50,7 @@ const RequestModal = ({ donation, user, onClose }) => {
           />
         </div>
 
+        {/* Restaurant Name */}
         <div>
           <label className="block text-sm font-medium">Restaurant Name</label>
           <input
@@ -57,16 +61,16 @@ const RequestModal = ({ donation, user, onClose }) => {
           />
         </div>
 
+        {/* Charity Info */}
         <div>
           <label className="block text-sm font-medium">Charity Name</label>
           <input
             type="text"
-            value={user.displayName}
+            value={user.displayName || user.name}
             readOnly
             className="w-full p-2 border rounded bg-gray-100"
           />
         </div>
-
         <div>
           <label className="block text-sm font-medium">Charity Email</label>
           <input
@@ -77,24 +81,33 @@ const RequestModal = ({ donation, user, onClose }) => {
           />
         </div>
 
+        {/* Request Description */}
         <div>
           <label className="block text-sm font-medium">Request Description</label>
           <textarea
-            {...register("requestDescription", { required: true })}
+            {...register("requestDescription", { required: "Description is required" })}
             className="w-full p-2 border rounded"
             placeholder="Why do you need this donation?"
           ></textarea>
+          {errors.requestDescription && (
+            <p className="text-red-500 text-sm">{errors.requestDescription.message}</p>
+          )}
         </div>
 
+        {/* Pickup Time */}
         <div>
           <label className="block text-sm font-medium">Preferred Pickup Time</label>
           <input
             type="datetime-local"
-            {...register("pickupTime", { required: true })}
+            {...register("pickupTime", { required: "Pickup time is required" })}
             className="w-full p-2 border rounded"
           />
+          {errors.pickupTime && (
+            <p className="text-red-500 text-sm">{errors.pickupTime.message}</p>
+          )}
         </div>
 
+        {/* Buttons */}
         <div className="flex justify-end gap-3 pt-2">
           <button
             type="submit"

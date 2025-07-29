@@ -1,3 +1,4 @@
+import { NavLink, Outlet } from "react-router";
 import {
   FaUser,
   FaClipboardList,
@@ -5,123 +6,79 @@ import {
   FaGift,
   FaHistory,
 } from "react-icons/fa";
-import { NavLink, Outlet } from "react-router";
-import CharityLogo from "../../Shared/CharityLogo";
 
 const CharityDashboardLayout = () => {
   return (
     <div className="drawer lg:drawer-open">
-      {/* Drawer Toggle */}
-      <input id="charity-drawer" type="checkbox" className="drawer-toggle" />
+      {/* Drawer toggle for mobile */}
+      <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
+
+      {/* Page content */}
       <div className="drawer-content flex flex-col">
-        {/* Navbar (mobile) */}
-        <div className="navbar bg-base-300 w-full lg:hidden">
-          <div className="flex-none">
-            <label
-              htmlFor="charity-drawer"
-              aria-label="open sidebar"
-              className="btn btn-square btn-ghost"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block h-6 w-6 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </label>
-          </div>
-          <div className="mx-2 flex-1 px-2 font-bold text-lg">
-            Charity Dashboard
-          </div>
+        {/* Navbar for mobile */}
+        <div className="w-full flex items-center justify-between bg-green-600 p-4 text-white lg:hidden">
+          <h2 className="text-xl font-bold">Charity Dashboard</h2>
+          <label htmlFor="dashboard-drawer" className="btn btn-ghost">
+            ☰
+          </label>
         </div>
 
-        {/* Main Content */}
-        <Outlet />
+        {/* Content render */}
+        <div className="p-6">
+          <Outlet />
+        </div>
       </div>
 
       {/* Sidebar */}
       <div className="drawer-side">
-        <label
-          htmlFor="charity-drawer"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-          {/* Logo */}
-          <CharityLogo />
-
-          <ul className="space-y-4 p-4 text-lg">
-            <li>
-              <NavLink
-                to="/charity-dashboard/charity-profile"
-                className={({ isActive }) =>
-                  `flex items-center gap-2 p-2 rounded hover:bg-green-300 ${
-                    isActive ? "bg-green-300 font-bold" : ""
-                  }`
-                }
-              >
-                <FaUser /> Charity Profile
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/charity-dashboard/my-requests"
-                className={({ isActive }) =>
-                  `flex items-center gap-2 p-2 rounded hover:bg-green-300 ${
-                    isActive ? "bg-green-300 font-bold" : ""
-                  }`
-                }
-              >
-                <FaClipboardList /> My Requests
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/charity-dashboard/my-pickups"
-                className={({ isActive }) =>
-                  `flex items-center gap-2 p-2 rounded hover:bg-green-300 ${
-                    isActive ? "bg-green-300 font-bold" : ""
-                  }`
-                }
-              >
-                <FaTruck /> My Pickups
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/charity-dashboard/received-donations"
-                className={({ isActive }) =>
-                  `flex items-center gap-2 p-2 rounded hover:bg-green-300 ${
-                    isActive ? "bg-green-300 font-bold" : ""
-                  }`
-                }
-              >
-                <FaGift /> Received Donations
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/charity-dashboard/transaction-history"
-                className={({ isActive }) =>
-                  `flex items-center gap-2 p-2 rounded hover:bg-green-300 ${
-                    isActive ? "bg-green-300 font-bold" : ""
-                  }`
-                }
-              >
-                <FaHistory /> Transaction History
-              </NavLink>
-            </li>
-          </ul>
+        <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
+        <ul className="menu bg-base-200 min-h-full w-64 space-y-2 p-4 text-lg">
+          <SidebarLink
+            to="/charity-dashboard/charity-profile"
+            icon={<FaUser />}
+            label="Charity Profile"
+          />
+          <SidebarLink
+            to="/charity-dashboard/my-requests"
+            icon={<FaClipboardList />}
+            label="My Requests"
+          />
+          <SidebarLink
+            to="/charity-dashboard/my-pickups"
+            icon={<FaTruck />}
+            label="My Pickups"
+          />
+          <SidebarLink
+            to="/charity-dashboard/received-donations"
+            icon={<FaGift />}
+            label="Received Donations"
+          />
+          <SidebarLink
+            to="/charity-dashboard/transaction-history"
+            icon={<FaHistory />}
+            label="Transaction History"
+          />
         </ul>
       </div>
     </div>
+  );
+};
+
+// Reusable NavLink component
+const SidebarLink = ({ to, icon, label }) => {
+  return (
+    <li>
+      <NavLink
+        to={to}
+        className={({ isActive }) =>
+          `flex items-center gap-3 p-2 rounded-md transition-colors duration-200
+           hover:bg-green-200 hover:font-bold
+           ${isActive ? "bg-green-300 font-bold" : ""}`
+        }
+      >
+        {icon} <span>{label}</span>
+      </NavLink>
+    </li>
   );
 };
 

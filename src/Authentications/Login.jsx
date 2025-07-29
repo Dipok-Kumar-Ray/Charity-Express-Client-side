@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
-import { useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "./GoogleLogin";
 import LoginAnination from "../../src/assets/TemanASN Home Mobile.json";
 import Lottie from "lottie-react";
+import { useState } from "react";
 
 const Login = () => {
   const {
@@ -15,15 +16,25 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from || "/";
+  const [loading, setLoading] = useState(true);
+
+  setTimeout(() => {
+    setLoading(false);
+  }, 300);
+
+  if(loading){
+    return <span className="loading loading-bars loading-xl"></span>
+  }
 
   const onSubmit = (data) => {
     signIn(data.email, data.password)
       .then((result) => {
         const user = result.user;
-        //  accessToken নেওয়া ও localStorage-এ সেভ
+       
         user.getIdToken().then((token) => {
           localStorage.setItem("access-token", token);
-          navigate(from, { replace: true });
+          navigate(from);
+          // navigate('/');
         });
       })
       .catch((error) => {
@@ -34,7 +45,8 @@ const Login = () => {
   return (
     <div className="hero-content flex flex-col-reverse md:flex-row items-center justify-between w-full px-4 lg:px-16 py-10 gap-10">
       <div className="flex card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-        <form onSubmit={handleSubmit(onSubmit)}>
+       <h2 className="text-3xl text-center font-bold py-3">Please Login</h2>
+        <form className="px-7" onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="fieldset">
             <label className="label">Email : </label>
             <input
@@ -65,7 +77,15 @@ const Login = () => {
             </div>
             <button className="btn btn-neutral mt-4">Login</button>
           </fieldset>
-          <GoogleLogin />
+          
+          <p className="mx-2 py-3 text-center ">
+            New to this site? Please
+            <Link className="text-blue-500 underline" to='/register'>
+            Register
+            </Link>
+
+          </p>
+          <GoogleLogin from ={from} />
         </form>
       </div>
 

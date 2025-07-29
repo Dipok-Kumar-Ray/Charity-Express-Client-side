@@ -26,7 +26,7 @@ const ReviewModal = ({ donationId, user, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-pink-400 bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-primary bg-opacity-50 flex items-center justify-center z-50">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className=" p-6 rounded shadow max-w-md w-full"

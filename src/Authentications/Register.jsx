@@ -1,54 +1,100 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAxios from "../hooks/useAxios";
 import Swal from "sweetalert2";
 import axios from "axios";
 import Lottie from "lottie-react";
 import LoginAnination from "../../src/assets/TemanASN Home Mobile.json";
+import GoogleLogin from "./GoogleLogin";
+import { getAuth } from "firebase/auth";
 
 const Register = () => {
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const { createUser, updateUserProfile } = useAuth();
   const [profilePic, setProfilePic] = useState("");
   const axiosInstance = useAxios();
 
+  // Loading delay (optional)
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <span className="loading loading-bars loading-xl"></span>;
+  }
+
   const onSubmit = async (data) => {
     try {
-      // create user in Firebase Auth
+      // 1. Create Firebase User
       const result = await createUser(data.email, data.password);
+      const user = result.user;
 
-      // save user info in your backend
+      // 2. Token Save
+      const token = await user.getIdToken();
+      localStorage.setItem("access-token", token);
+
+      // 3. Profile Picture (use uploaded or default)
+      const finalPhotoURL =
+        profilePic ||
+        data.photoURL ||
+        "https://i.ibb.co/4pDNDk1/avatar-default.png";
+
+      // 4. Send user info to backend
       const userInfo = {
-        email: data.email,
-        role: "user",
-        created_at: new Date().toISOString(),
-        last_log_in: new Date().toISOString(),
+        name: data.name,
+        email: data.email.toLowerCase(),
+        photoURL: finalPhotoURL,
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString(),
       };
       await axiosInstance.post("/users", userInfo);
 
-      // update Firebase user profile
-      const userProfile = {
+      // 5. Update Firebase profile
+      await updateUserProfile({
         displayName: data.name,
-        photoURL: profilePic,
-      };
-      await updateUserProfile(userProfile);
+        photoURL: finalPhotoURL,
+      });
 
-      Swal.fire("Success", "Account created successfully", "success");
-      navigate("/");
+      // 6. Reload current user to sync changes
+      const auth = getAuth();
+      await auth.currentUser.reload();
+
+      // 7. Fallback check (if displayName still missing)
+      if (!auth.currentUser.displayName) {
+        await updateUserProfile({
+          displayName: data.name,
+          photoURL: finalPhotoURL,
+        });
+      }
+
+      // 8. Success and redirect
+      Swal.fire("Success", "Account created successfully", "success").then(() =>
+        navigate(from)
+      );
     } catch (error) {
+      console.error("Firebase Error:", error.code, error.message);
       Swal.fire("Error", error.message, "error");
     }
   };
 
+  // Image Upload Handler
   const handleImageUpload = async (e) => {
     const image = e.target.files[0];
+    if (!image) return;
+
     const formData = new FormData();
     formData.append("image", image);
 
@@ -60,16 +106,18 @@ const Register = () => {
       const res = await axios.post(imagUploadUrl, formData);
       setProfilePic(res.data.data.url);
     } catch (error) {
-      Swal.fire("Error", "Image upload failed", error);
+      Swal.fire("Error", "Image upload failed", error.message || error);
     }
   };
 
   return (
     <div className="hero-content flex flex-col-reverse md:flex-row items-center justify-between w-full px-4 lg:px-16 py-10 gap-10">
+      {/* Form Card */}
       <div className="flex card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
         <div className="card-body">
-          <h1 className="text-3xl font-bold mb-3">Create Account</h1>
+          <h1 className="text-3xl font-bold mb-3 text-center">Create Account</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Name */}
             <label>Your Name</label>
             <input
               type="text"
@@ -81,6 +129,7 @@ const Register = () => {
               <p className="text-red-500">{errors.name.message}</p>
             )}
 
+            {/* Profile Picture */}
             <label>Profile Picture</label>
             <input
               type="file"
@@ -88,6 +137,7 @@ const Register = () => {
               className="input input-bordered w-full"
             />
 
+            {/* Email */}
             <label>Email</label>
             <input
               type="email"
@@ -99,6 +149,7 @@ const Register = () => {
               <p className="text-red-500">{errors.email.message}</p>
             )}
 
+            {/* Password */}
             <label>Password</label>
             <input
               type="password"
@@ -121,18 +172,24 @@ const Register = () => {
               <p className="text-red-500">{errors.password.message}</p>
             )}
 
+            {/* Submit */}
             <button className="btn btn-primary w-full mt-4">Register</button>
           </form>
 
+          {/* Login Link */}
           <p className="mt-4 text-sm">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-500 underline">
               Login
             </Link>
           </p>
+
+          {/* Google Login */}
+          <GoogleLogin from={from} />
         </div>
       </div>
 
+      {/* Animation */}
       <div className="w-full md:w-1/2 flex justify-center">
         <Lottie animationData={LoginAnination} loop className="w-[300px]" />
       </div>

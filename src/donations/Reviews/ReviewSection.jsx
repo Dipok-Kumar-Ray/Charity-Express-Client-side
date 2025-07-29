@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
-const ReviewSection = ({ donationId }) => {
+const ReviewSection = () => {
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    axiosSecure.get(`/reviews/${donationId}`).then((res) => {
+    axiosSecure.get(`/reviews/${user?.email}`).then((res) => {
       setReviews(res.data);
     });
-  }, [donationId, axiosSecure]);
+  }, [user]);
 
   return (
     <div className="mt-10">

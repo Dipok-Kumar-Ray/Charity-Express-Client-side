@@ -1,21 +1,22 @@
-// // src/hooks/useAxiosSecure.js
-// import axios from "axios";
-// import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+// import useAuth from "./useAuth";
 
-const axiosSecure = axios.create({
-  baseURL: `http://localhost:3000`, // তোমার backend API
+const axiosSecure= axios.create({
+  baseURL: "http://localhost:3000", // তোমার backend server URL
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
+
 const useAxiosSecure = () => {
+  // const {token} = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // ✅ Request interceptor
+    //  Request interceptor
     const requestInterceptor = axiosSecure.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem("access-token");
@@ -27,7 +28,7 @@ const useAxiosSecure = () => {
       (error) => Promise.reject(error)
     );
 
-    // ✅ Response interceptor
+    //  Response interceptor
     const responseInterceptor = axiosSecure.interceptors.response.use(
       (response) => response,
       (error) => {
@@ -40,7 +41,7 @@ const useAxiosSecure = () => {
       }
     );
 
-    // ✅ Cleanup interceptor
+    //  Cleanup interceptor
     return () => {
       axiosSecure.interceptors.request.eject(requestInterceptor);
       axiosSecure.interceptors.response.eject(responseInterceptor);

@@ -20,19 +20,27 @@ const AllDonation = () => {
     fetchDonations();
   }, [axiosSecure]);
 
-  //  Filter by search (location)
-  const filteredDonations = donations
-    .filter((donation) =>
-      donation.location.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (sortOption === "quantity") {
-        return b.quantity - a.quantity;
-      } else if (sortOption === "pickupTime") {
-        return new Date(a.pickupTime) - new Date(b.pickupTime);
-      }
-      return 0;
-    });
+  // Step 1: শুধু Verified donations নাও
+  const verifiedDonations = donations.filter(
+    (donation) => donation.status === "Verified"
+  );
+
+  // Step 2: Search filter
+  const searchedDonations = verifiedDonations.filter((donation) =>
+    donation.location.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Step 3: Sort logic
+  const sortedDonations = [...searchedDonations].sort((a, b) => {
+    if (sortOption === "quantity") {
+      // Quantity কে number এ কনভার্ট করে descending order এ সাজাও
+      return Number(b.quantity) - Number(a.quantity);
+    } else if (sortOption === "pickupTime") {
+      // pickupTime কে Date object এ কনভার্ট করে ascending order এ সাজাও
+      return new Date(a.pickupTime) - new Date(b.pickupTime);
+    }
+    return 0; // Default: কোন sorting নাই
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-green-50 to-white dark:from-gray-900 dark:to-gray-800 p-6">
@@ -40,11 +48,11 @@ const AllDonation = () => {
         All Available Donations
       </h2>
 
-      {/*  Search & Sort Controls */}
+      {/* Search & Sort Controls */}
       <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
         <input
           type="text"
-          placeholder="Search by city or zip..."
+          placeholder="Search by Location ..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="px-4 py-2 border border-gray-300 rounded-xl w-full sm:w-1/2 dark:bg-gray-800 dark:text-white"
@@ -56,13 +64,14 @@ const AllDonation = () => {
           className="px-4 py-2 border border-gray-300 rounded-xl w-full sm:w-1/4 dark:bg-gray-800 dark:text-white"
         >
           <option value="">Sort By</option>
-          <option value="quantity">Quantity</option>
-          <option value="pickupTime">Pickup Time</option>
+          <option value="quantity">Quantity (High to Low)</option>
+          <option value="pickupTime">Pickup Time (Soonest First)</option>
         </select>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredDonations.map((donation) => (
+      {/* 4 Column Responsive Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {sortedDonations.map((donation) => (
           <div
             key={donation._id}
             className="group relative dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 transition duration-300 hover:bg-green-50 hover:shadow-xl hover:border-green-400 dark:hover:bg-gray-700"
@@ -86,7 +95,7 @@ const AllDonation = () => {
 
             <p className="text-gray-600 dark:text-gray-300 mb-1">
               🤝 <strong>Charity:</strong>{" "}
-              {donation.charityName || "Not assigned"}
+              {donation.foodType || "Not assigned"}
             </p>
 
             <p className="text-gray-600 dark:text-gray-300 mb-1">
@@ -94,10 +103,7 @@ const AllDonation = () => {
             </p>
 
             <p className="text-gray-600 dark:text-gray-300 mb-1">
-              ⏰ <strong>Pickup Time:</strong>{" "}
-              {donation.pickupTime
-                ? new Date(donation.pickupTime).toLocaleString()
-                : "N/A"}
+              ⏰ <strong>Pickup Time:</strong> {donation.pickupTime}
             </p>
 
             {/* Status */}

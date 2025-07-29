@@ -1,4 +1,4 @@
-import { createBrowserRouter, Route } from "react-router";
+import { createBrowserRouter } from "react-router";
 import RootLayout from "../layouts/RootLayout";
 import PrivateRoute from "../routes/PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -8,23 +8,16 @@ import Home from "../Home/Home";
 import Register from "../Authentications/Register";
 import Login from "../Authentications/Login";
 import AuthLayout from "../layouts/AuthLayout";
-import NotFound from "../pages/NotFound";
+// import NotFound from "../pages/NotFound";
 import AboutUs from "../pages/AboutUs/AboutUs";
-import RequestCharity from "../Dashboard/requestCharity/RequestCharity";
+// import RequestCharity from "../Dashboard/requestCharity/RequestCharity";
 import Favorites from "../Dashboard/favorites/Favorites";
-import SuccessPage from "../Dashboard/transactionHistory/successPage/SuccessPage";
-import AdminDashboard from "../Dashboard/AmdinDashboard/AdminDashboard";
-import UserManage from "../Dashboard/AmdinDashboard/UserManage";
-import Forbidden from "../routes/Forbidden";
-import AdminSecure from "../routes/AdminSecure";
+import SuccessPage from "../Dashboard/transactionHistory/successPage/Success";
+// import Forbidden from "../routes/Forbidden";
 import MyProfile from "../UserDashboardRole/myProfile/MyProfile";
 import MyReviews from "../UserDashboardRole/myReviews/MyReviews";
 import TransactionHistory from "../UserDashboardRole/transactionHistory/TransactionHistoy";
-import RestaurantProfile from "../RestaurantDashboardLayout/RestaurantProfile.jsx/RestaurantProfile";
-import AddDonation from "../RestaurantDashboardLayout/addDonation.jsx/AddDonation";
-import MyDonations from "../RestaurantDashboardLayout/myDonations/MyDonations";
-import RequestedDonations from "../RestaurantDashboardLayout/requestedDonation/RequestedDonations";
-import RestaurantRoute from "../RestaurantDashboardLayout/restaurantRoute/RestaurantRoute";
+// import RestaurantRoute from "../RestaurantDashboardLayout/restaurantRoute/RestaurantRoute";
 import RestaurantDashboardLayout from "../RestaurantDashboardLayout/RestaurantDashboardLayout";
 import CharityProfile from "../CharityDashboardLayout/charityProfile/CharityProfile";
 import CharityDashboardLayout from "../CharityDashboardLayout/charityDashboardLayout/CharityDashboardLayout";
@@ -32,170 +25,205 @@ import MyRequests from "../CharityDashboardLayout/myRequests/MyRequests";
 import MyPickups from "../CharityDashboardLayout/myPickups/MyPickups";
 import ReceivedDonations from "../CharityDashboardLayout/receivedDonations/ReceivedDonations";
 import TransactionsHistory from "../CharityDashboardLayout/transactionHistory/TransactionsHistory";
+import RestaurantProfile from "../RestaurantDashboardLayout/RestaurantProfile.jsx/RestaurantProfile";
+import AddDonation from "../RestaurantDashboardLayout/addDonation.jsx/AddDonation";
+import MyDonations from "../RestaurantDashboardLayout/myDonations/MyDonations";
+import RequestedDonations from "../RestaurantDashboardLayout/requestedDonation/RequestedDonations";
+// import AdminRoute from "../AdminDashboardLagyouts/adminRoute/AdminRoute";
+import AdminDashboardLayouts from "../AdminDashboardLagyouts/adminDahboard/AdminDashboardLayout/AdminDashboardLayouts";
+import AdminProfile from "../AdminDashboardLagyouts/adminProfile/AdminProfile";
+import ManageUsers from "../AdminDashboardLagyouts/manageUsers/ManageUsers";
+import ManageRoleRequests from "../AdminDashboardLagyouts/manageRoleRequests/ManageRoleRequests";
+import ManageRequests from "../AdminDashboardLagyouts/manageRequests/ManageRequests";
+import FeatureDonations from "../AdminDashboardLagyouts/featureDonations/FeatureDonations";
+import ManageDonations from "../AdminDashboardLagyouts/manageDonatons/ManageDonations";
+import RequestCharityRole from "../UserDashboardRole/requestCharityRole/RequestCharityRole";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: RootLayout,
+    element: <RootLayout />,
     children: [
       {
         index: true,
-        element: <Home></Home>,
+        element: <Home />,
       },
       {
         path: "allDonation",
         element: (
           <PrivateRoute>
-            <AllDonation></AllDonation>
+            <AllDonation />
           </PrivateRoute>
         ),
       },
       {
         path: "donationDetails/:id",
         element: <DonationDetails />,
+      }, 
+      {
+        path: 'donations/:id',
+        element: <DonationDetails/>
       },
       {
         path: "aboutUs",
-        element: <AboutUs></AboutUs>,
+        element: <AboutUs />,
       },
     ],
   },
 
   {
     path: "/",
-    element: <AuthLayout></AuthLayout>,
+    element: <AuthLayout />,
     children: [
       {
         path: "login",
-        element: <Login></Login>,
+        element: <Login />,
       },
       {
         path: "register",
-        element: <Register></Register>,
+        element: <Register />,
       },
     ],
   },
 
-//users dashboard layout
-{
-  path: "/dashboard",
-  element: (
-    <PrivateRoute>
-      <DashboardLayout />
-    </PrivateRoute>
-  ),
-  children: [
-    // {
-    //   path: 'addDonation',
-    //   element: <AddDonation></AddDonation>
-    // },
-    {
-      path: "my-profile",
-      element: <MyProfile></MyProfile>
-      // element: <MyProfile />,
-    },
-    {
-      path: "request-charity",
-      element: <RequestCharity />,
-    },
-    {
-      path: "favorites",
-      element: <Favorites />,
-    },
-    {
-      path: "my-reviews",
-      element: <MyReviews></MyReviews>
-    },
-    {
-      path: "transaction-history",
-      element: <TransactionHistory></TransactionHistory>
-    },
-  ],
-},
+  // user dashboard
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "my-profile",
+        element: <MyProfile />,
+      },
+      {
+        path: "request-charity",
+        element:<RequestCharityRole/> 
+      },
+      {
+        path: "favorites",
+        element: <Favorites />,
+      },
+      {
+        path: "my-reviews",
+        element: <MyReviews />,
+      },
+      {
+        path: "transaction-history",
+        element: <TransactionHistory />,
+      },
+    ],
+  },
 
-//restaurant dashboard
-{
-  path:'/restaurant-dashboard',
-  element:<RestaurantRoute><RestaurantDashboardLayout></RestaurantDashboardLayout></RestaurantRoute>,
-  
-  children: [
-    {
-      path:'restaurant-profile' ,
-      element: <RestaurantProfile></RestaurantProfile>
-    },
-    {
-      path: 'addDonation',
-      element: <AddDonation></AddDonation>
-    },
-    {
-      path: 'my-donations',
-      element: <MyDonations></MyDonations>
-    },
-    {
-      path: 'requested-donations',
-      element: <RequestedDonations></RequestedDonations>
-    }
-  ]
-},
+  // restaurant dashboard
+  {
+    path: "restaurant-dashboard",
+    // element: (
+    //   <RestaurantRoute>
+    //     <RestaurantDashboardLayout />
+    //   </RestaurantRoute>
+    // ),
+    element: <RestaurantDashboardLayout/>,
+    children: [
+      {
+        path: "restaurant-profile",
+        element: <RestaurantProfile/>
+      },
+      {
+        path: "addDonation",
+        element: <AddDonation/>
+      },
+      {
+        path: "my-donations",
+        element:<MyDonations/>
+      },
+      {
+        path: "requested-donations",
+      element: <RequestedDonations/>
+      },
+    ],
+  },
 
-//charity dashboard
-{
-  path: '/charity-dashboard',
-  element: <PrivateRoute><CharityDashboardLayout></CharityDashboardLayout></PrivateRoute>,
+  // charity dashboard
+  {
+    path: "charity-dashboard",
+    element: (
+      <PrivateRoute>
+        <CharityDashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "charity-profile",
+        element: <CharityProfile />,
+      },
+      {
+        path: "my-requests",
+        element: <MyRequests />,
+      },
+      {
+        path: "my-pickups",
+        element: <MyPickups />,
+      },
+      {
+        path: "received-donations",
+        element: <ReceivedDonations />,
+      },
+      {
+        path: "transaction-history",
+        element: <TransactionsHistory />,
+      },
+    ],
+  },
 
-  children: [
-    {
-      path: 'charity-profile',
-      element: <CharityProfile></CharityProfile>,
-    },
-    {
-      path: 'my-requests',
-      element: <MyRequests></MyRequests>,
-    },
-    {
-      path: 'my-pickups',
-      element: <MyPickups></MyPickups>
-    },
-    {
-      path: 'received-donations',
-      element: <ReceivedDonations></ReceivedDonations>
-    },
-    {
-      path: 'transaction-history',
-      element: <TransactionsHistory></TransactionsHistory>
-    },
+  // admin dashboard
+  {
+    path: "/admin-dashboard",
+    // element:<PrivateRoute><AdminDashboardLayouts></AdminDashboardLayouts></PrivateRoute>, 
+    element: <PrivateRoute><AdminDashboardLayouts/></PrivateRoute>,
+    children: [
+      {
+        path: "profile",
+        element: <AdminProfile/>
+      },
+      {
+        path: 'manage-donations',
+        element: <ManageDonations/>
+      },
+      {
+        path: 'manage-users',
+        element: <ManageUsers/>
+      },
+      {
+        path: 'manage-role-requests',
+        element: <ManageRoleRequests/>
+      },
+      {
+        path: 'manage-requests',
+        element: <ManageRequests/>
+      },
+      {
+        path: 'feature-donations',
+        element: <FeatureDonations/>
+      }
+    ],
+  },
 
-  ]
+  {
+    path: "success",
+    element: <SuccessPage />,
+  },
 
-},
-
-//admin dashboard
-{
-  path: '/adminDashboard',
-  element: <AdminSecure> <AdminDashboard ></AdminDashboard></AdminSecure>,
-  children: [
-    {
-      index: true,
-      element: <UserManage></UserManage>
-    },
-    
-  ]
-  
-},
-
-{
-  path: 'success',
-  element: SuccessPage
-},
-
-{
-      path: '/forbidden',
-      element: <Forbidden></Forbidden>
-    }
-
+  // {
+  //   path: "/forbidden",
+  //   element: <Forbidden />,
+  // },
 
   // {
   //   path: "*",
-  //   element: <NotFound></NotFound>,
+  //   element: <NotFound />,
   // },
 ]);
