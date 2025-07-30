@@ -5,6 +5,7 @@ import GoogleLogin from "./GoogleLogin";
 import LoginAnination from "../../src/assets/TemanASN Home Mobile.json";
 import Lottie from "lottie-react";
 import { useState } from "react";
+import { getAuth } from "firebase/auth";
 
 const Login = () => {
   const {
@@ -26,7 +27,27 @@ const Login = () => {
     return <span className="loading loading-bars loading-xl"></span>
   }
 
-  const onSubmit = (data) => {
+
+const onSubmit = async (data) => {
+  try {
+    const result = await signIn(data.email, data.password);
+    const user = result.user;
+
+    // Profile reload to get updated displayName/photo
+    const auth = getAuth();
+    await auth.currentUser.reload();
+
+    const token = await user.getIdToken();
+    localStorage.setItem("access-token", token);
+
+    navigate(from);
+  } catch (error) {
+    console.error("Login Error:", error);
+  }
+};
+
+
+ /*  const onSubmit = (data) => {
     signIn(data.email, data.password)
       .then((result) => {
         const user = result.user;
@@ -41,7 +62,7 @@ const Login = () => {
         console.error("Login Error:", error);
       });
   };
-
+ */
   return (
     <div className="hero-content flex flex-col-reverse md:flex-row items-center justify-between w-full px-4 lg:px-16 py-10 gap-10">
       <div className="flex card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">

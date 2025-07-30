@@ -6,6 +6,7 @@ import {
   FaGift,
   FaHistory,
 } from "react-icons/fa";
+import CharityLogo from "../../Shared/CharityLogo";
 
 const CharityDashboardLayout = () => {
   return (
@@ -32,7 +33,12 @@ const CharityDashboardLayout = () => {
       {/* Sidebar */}
       <div className="drawer-side">
         <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
-        <ul className="menu bg-base-200 min-h-full w-64 space-y-2 p-4 text-lg">
+        <ul className="menu bg-base-200 min-h-full w-64 space-y-4 p-4 text-lg">
+          {/* Charity Logo added */}
+          <div className="mb-6 flex justify-center">
+            <CharityLogo />
+          </div>
+
           <SidebarLink
             to="/charity-dashboard/charity-profile"
             icon={<FaUser />}

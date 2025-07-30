@@ -19,12 +19,20 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Register new user
-  const createUser = (email, password) => {
+  const createUser = async (email, password, name) => {
     setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+
+    // Register এর পর নাম সেট করা
+    await updateProfile(result.user, {
+      displayName: name,
+   photoURL: "https://i.ibb.co/BKdKkB4d/496151637-122190158900051173-6167468923845444206-n.jpg" 
+    });
+
+    return result;
   };
 
-  // Login existing user (Fix: use signInWithEmailAndPassword)
+  // Login existing user
   const signIn = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
@@ -36,7 +44,6 @@ const AuthProvider = ({ children }) => {
   };
 
   const updateUserProfile = (profileInfo) => {
-    console.log(profileInfo);
     return updateProfile(auth.currentUser, profileInfo);
   };
 
@@ -45,32 +52,70 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  // Fetch role from backend and merge with Firebase user
-  const fetchUserRole = async (firebaseUser) => {
+  // Fetch role from backend and merge
+ /*  const fetchUserRole = async (firebaseUser) => {
     try {
       const res = await axios.get(`http://localhost:3000/users/${firebaseUser.email}`);
       const role = res.data.role || 'user';
-      setUser({ ...firebaseUser, role }); // Merge role with Firebase user
+
+      // Merge properly
+      setUser({
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        displayName: firebaseUser.displayName,
+        photoURL: firebaseUser.photoURL,
+        role
+      });
     } catch (error) {
       console.error("Error fetching user role:", error);
-      setUser(firebaseUser); // Fallback: set only Firebase user
+      setUser(firebaseUser);
     }
-  };
+  }; */
 
-  // On auth state change, fetch role and set user
-  useEffect(() => {
+const fetchUserRole = async (firebaseUser) => {
+  try {
+    const res = await axios.get(`http://localhost:3000/users/${firebaseUser.email}`);
+    const role = res.data.role || "user";
+
+    // Firebase থেকে সব field merge করা (fallback সহ)
+    setUser({
+      uid: firebaseUser.uid,
+      email: firebaseUser.email,
+      displayName: firebaseUser.displayName || res.data.name || "User",
+      photoURL: firebaseUser.photoURL || res.data.photoURL || "/default.png",
+      role
+    });
+  } catch (error) {
+    console.error("Error fetching user role:", error);
+    setUser({
+      uid: firebaseUser.uid,
+      email: firebaseUser.email,
+      displayName: firebaseUser.displayName || "User",
+      photoURL: firebaseUser.photoURL || "/default.png",
+      role: "user"
+    });
+  }
+};
+
+
+  // Listen auth state
+ /*  useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        axios.post('http://localhost:3000/login', {
-          email: currentUser.email, name: currentUser.displayName
-        })
-        .then((res)=>{
-console.log(res);
-          localStorage.setItem("access-token", res.data.token);
-        })
+        try {
+          // Token store
+          const res = await axios.post('http://localhost:3000/login', {
+            email: currentUser.email,
+            name: currentUser.displayName
+          });
 
-        // Fetch role from MongoDB
-        await fetchUserRole(currentUser);
+          localStorage.setItem("access-token", res.data.token);
+
+          // Fetch role
+          await fetchUserRole(currentUser);
+        } catch (err) {
+          console.error("Login sync error:", err);
+        }
       } else {
         setUser(null);
         localStorage.removeItem("access-token");
@@ -79,7 +124,42 @@ console.log(res);
     });
 
     return () => unSubscribe();
-  }, []);
+  }, []); */
+
+useEffect(() => {
+  const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    if (currentUser) {
+      try {
+        // এই লাইনটা খুব গুরুত্বপূর্ণ (profile refresh)
+        await currentUser.reload();
+
+        const freshUser = auth.currentUser; // refreshed data
+
+        // Token store
+       const res = await axios.post('http://localhost:3000/login', {
+  email: freshUser.email,
+  name: freshUser.displayName,
+  photoURL: freshUser.photoURL // নতুন করে এটা যোগ করো
+});
+
+        localStorage.setItem("access-token", res.data.token);
+
+        // Fetch role & merge with fresh data
+        await fetchUserRole(freshUser);
+      } catch (err) {
+        console.error("Login sync error:", err);
+      }
+    } else {
+      setUser(null);
+      localStorage.removeItem("access-token");
+    }
+    setLoading(false);
+  });
+
+  return () => unSubscribe();
+}, []);
+
+
 
   const authInfo = {
     user,

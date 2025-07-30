@@ -12,6 +12,18 @@ const CommunityStories = () => {
         "We received quality food donations just when we needed them most. This initiative brings dignity and warmth to our community.",
       image: "https://i.ibb.co/yFMLczp6/photo-1694286068611-d0c24cbc2cd5.jpg",
     },
+    {
+      name: "FreshMart Groceries",
+      quote:
+        "Partnering with this network allowed us to distribute surplus fresh produce to families in need, reducing landfill waste significantly.",
+      image: "https://i.ibb.co/qLF0N9fL/download.jpg",
+    },
+    {
+      name: "Green Hearts Foundation",
+      quote:
+        "This collaboration has empowered us to reach more underprivileged children with nutritious meals every month.",
+      image: "https://i.ibb.co/9HSG0n39/download.jpg",
+    },
   ];
 
   return (

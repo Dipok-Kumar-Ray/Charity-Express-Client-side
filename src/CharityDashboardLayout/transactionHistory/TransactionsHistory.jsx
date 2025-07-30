@@ -1,46 +1,56 @@
 import { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import axios from "axios";
 
-const TransactionsHistory = () => {
-  const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+const TransactionHistory = () => {
   const [transactions, setTransactions] = useState([]);
 
-  // Fetch transactions
   useEffect(() => {
-    axiosSecure
-      .get(`/charity/transactions?email=${user.email}`)
-      .then((res) => setTransactions(res.data));
-  }, [user.email, axiosSecure]);
+    axios
+      .get("http://localhost:3000/charity-requests")
+      .then((res) => setTransactions(res.data))
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
-    <div className="overflow-x-auto">
-      <h2 className="text-xl font-bold mb-4">Transaction History</h2>
-      <table className="min-w-full  border">
-        <thead>
-          <tr className="">
-            <th className="py-2 px-4 border">Transaction ID</th>
-            <th className="py-2 px-4 border">Amount</th>
-            <th className="py-2 px-4 border">Date</th>
-            <th className="py-2 px-4 border">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((t) => (
-            <tr key={t._id}>
-              <td className="py-2 px-4 border">{t.transactionId}</td>
-              <td className="py-2 px-4 border">${t.amount}</td>
-              <td className="py-2 px-4 border">
-                {new Date(t.date).toLocaleDateString()}
-              </td>
-              <td className="py-2 px-4 border">{t.status}</td>
+    <div className="max-w-4xl mx-auto p-6">
+      <h2 className="text-2xl font-bold mb-4">Transaction History</h2>
+
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full border border-gray-700">
+          <thead className="bg-gray-800 text-white">
+            <tr>
+              <th className="px-4 py-2 border">Transaction ID</th>
+              <th className="px-4 py-2 border">Amount Paid</th>
+              <th className="px-4 py-2 border">Request Date</th>
+              <th className="px-4 py-2 border">Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {transactions.map((tx) => (
+              <tr key={tx._id} className="border-b border-gray-700 text-center">
+                <td className="px-4 py-2 border">{tx.transactionId}</td>
+                <td className="px-4 py-2 border">${tx.amount || 0}</td>
+                <td className="px-4 py-2 border">
+                  {new Date(tx.createdAt).toLocaleDateString()}
+                </td>
+                <td
+                  className={`px-4 py-2 border font-semibold ${
+                    tx.status === "Pending"
+                      ? "text-yellow-500"
+                      : tx.status === "Approved"
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {tx.status}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default TransactionsHistory;
+export default TransactionHistory;

@@ -39,7 +39,7 @@ const Register = () => {
   const onSubmit = async (data) => {
     try {
       // 1. Create Firebase User
-      const result = await createUser(data.email, data.password);
+      const result = await createUser(data.email, data.password, data.name);
       const user = result.user;
 
       // 2. Token Save
@@ -185,7 +185,7 @@ const Register = () => {
           </p>
 
           {/* Google Login */}
-          <GoogleLogin from={from} />
+          <GoogleLogin />
         </div>
       </div>
 

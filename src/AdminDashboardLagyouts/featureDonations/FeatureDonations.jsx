@@ -1,76 +1,77 @@
-import { useEffect, useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
 const FeatureDonations = () => {
   const axiosSecure = useAxiosSecure();
-  const [donations, setDonations] = useState([]);
 
   // Fetch verified donations
-  const fetchDonations = () => {
-    axiosSecure.get("/admin/verified-donations").then((res) => setDonations(res.data));
-  };
+  const { data: donations = [], isLoading, refetch } = useQuery({
+    queryKey: ["verified-donations"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/donations/verified");
+      return res.data;
+    },
+  });
 
-  useEffect(() => {
-    fetchDonations();
-  }, []);
-
-  // Feature Donation
-  const handleFeature = (donationId) => {
-    Swal.fire({
-      title: "Feature this donation?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Yes, Feature it",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axiosSecure
-          .post("/admin/feature-donation", { donationId })
-          .then(() => {
-            Swal.fire("Featured!", "Donation has been featured.", "success");
-            fetchDonations();
-          })
-          .catch((err) => {
-            Swal.fire("Error!", err.response.data.message, "error");
-          });
+  // Feature mutation
+  const mutation = useMutation({
+    mutationFn: async (id) => {
+      const res = await axiosSecure.patch(`/donations/feature/${id}`);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data.modifiedCount > 0) {
+        Swal.fire("Success", "Donation Featured!", "success");
+        refetch();
       }
-    });
-  };
+    },
+    onError: () => {
+      Swal.fire("Error", "Failed to feature donation", "error");
+    },
+  });
+
+  if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Feature Donations</h2>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-6">Feature Donations (Admin)</h2>
+
       <div className="overflow-x-auto">
         <table className="table w-full border">
-          <thead>
+          <thead className="bg-gray-100">
             <tr>
-              <th>Image</th>
-              <th>Title</th>
-              <th>Food Type</th>
-              <th>Restaurant</th>
-              <th>Action</th>
+              <th className="p-2 border">Image</th>
+              <th className="p-2 border">Title</th>
+              <th className="p-2 border">Food Type</th>
+              <th className="p-2 border">Restaurant</th>
+              <th className="p-2 border">Action</th>
             </tr>
           </thead>
           <tbody>
             {donations.map((donation) => (
-              <tr key={donation._id}>
-                <td>
+              <tr key={donation._id} className="text-center">
+                <td className="p-2 border">
                   <img
                     src={donation.image}
                     alt={donation.title}
-                    className="w-16 h-16 object-cover rounded"
+                    className="w-16 h-16 object-cover rounded mx-auto"
                   />
                 </td>
-                <td>{donation.title}</td>
-                <td>{donation.foodType}</td>
-                <td>{donation.restaurantName}</td>
-                <td>
-                  <button
-                    onClick={() => handleFeature(donation._id)}
-                    className="btn btn-xs btn-primary"
-                  >
-                    Feature
-                  </button>
+                <td className="p-2 border">{donation.title}</td>
+                <td className="p-2 border">{donation.foodType}</td>
+                <td className="p-2 border">{donation.restaurantName}</td>
+                <td className="p-2 border">
+                  {donation.isFeatured ? (
+                    <span className="text-green-600 font-semibold">Featured</span>
+                  ) : (
+                    <button
+                      onClick={() => mutation.mutate(donation._id)}
+                      className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 transition"
+                    >
+                      Feature
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

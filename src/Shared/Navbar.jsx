@@ -4,7 +4,7 @@ import CharityLogo from "./CharityLogo";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
-
+ console.log("Navbar user:", user);  
   const handleSignOut = () => {
     logOut()
       .then((result) => {
@@ -18,46 +18,124 @@ const Navbar = () => {
   // role কে lowercase করে নেওয়া যাতে case mismatch না হয়
   const role = user?.role?.toLowerCase();
 
-  const navItems = (
-    <>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      <li>
-        <NavLink to="/allDonation">All Donations</NavLink>
-      </li>
+const navItems = (
+  <>
+    <li>
+      <NavLink
+        to="/"
+        className={({ isActive }) =>
+          `px-4 py-2 rounded-lg transition duration-300 ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+          }`
+        }
+      >
+        Home
+      </NavLink>
+    </li>
 
-      <ul>
-        {role === "user" && (
-          <li>
-            <NavLink to="/dashboard">User Dashboard</NavLink>
-          </li>
-        )}
+    <li>
+      <NavLink
+        to="/allDonation"
+        className={({ isActive }) =>
+          `px-4 py-2 rounded-lg transition duration-300 ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+          }`
+        }
+      >
+        All Donations
+      </NavLink>
+    </li>
 
-        {role === "restaurant" && (
-          <li>
-            <NavLink to="/restaurant-dashboard">Restaurant Dashboard</NavLink>
-          </li>
-        )}
+    <ul>
+      {role === "user" && (
+        <li>
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              `px-4 py-2 rounded-lg transition duration-300 ${
+                isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-white-700 text-bold hover:bg-blue-100 hover:text-blue-600"
+              }`
+            }
+          >
+            User Dashboard
+          </NavLink>
+        </li>
+      )}
 
-        {role === "charity" && (
-          <li>
-            <NavLink to="/charity-dashboard">Charity Dashboard</NavLink>
-          </li>
-        )}
+      {role === "restaurant" && (
+        <li>
+          <NavLink
+            to="/restaurant-dashboard"
+            className={({ isActive }) =>
+              `px-4 py-2 rounded-lg transition duration-300 ${
+                isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+              }`
+            }
+          >
+            Restaurant Dashboard
+          </NavLink>
+        </li>
+      )}
 
-        {role === "admin" && (
-          <li>
-            <NavLink to="/admin-dashboard">Admin Dashboard</NavLink>
-          </li>
-        )}
-      </ul>
+      {role === "charity" && (
+        <li>
+          <NavLink
+            to="/charity-dashboard"
+            className={({ isActive }) =>
+              `px-4 py-2 rounded-lg transition duration-300 ${
+                isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+              }`
+            }
+          >
+            Charity Dashboard
+          </NavLink>
+        </li>
+      )}
 
-      <li>
-        <NavLink to="/aboutUs">About Us</NavLink>
-      </li>
-    </>
-  );
+      {role === "admin" && (
+        <li>
+          <NavLink
+            to="/admin-dashboard"
+            className={({ isActive }) =>
+              `px-4 py-2 rounded-lg transition duration-300 ${
+                isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+              }`
+            }
+          >
+            Admin Dashboard
+          </NavLink>
+        </li>
+      )}
+    </ul>
+
+    <li>
+      <NavLink
+        to="/aboutUs"
+        className={({ isActive }) =>
+          `px-4 py-2 rounded-lg transition duration-300 ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+          }`
+        }
+      >
+        About Us
+      </NavLink>
+    </li>
+  </>
+);
 
   return (
     <div className="navbar fixed top-0 z-50 bg-base-200 shadow-sm">
@@ -93,7 +171,7 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
-      <div className="navbar-end">
+      {/* <div className="navbar-end">
         {user ? (
           <div className="flex items-center gap-2 ">
             <button onClick={handleSignOut} className="rounded-4xl btn btn-accent">
@@ -117,7 +195,40 @@ const Navbar = () => {
             </NavLink>
           </>
         )}
+      </div> */}
+      <div className="navbar-end">
+  {user ? (
+    <div className="flex items-center gap-2">
+      <button onClick={handleSignOut} className="rounded-4xl btn btn-accent">
+        Log Out
+      </button>
+
+      {/* Profile with name */}
+      <div className="flex items-center gap-2">
+        <div
+          className="tooltip tooltip-bottom"
+          data-tip={user.displayName || "No Name"}
+        >
+          <img
+            src={user?.photoURL || "/default.png"}
+            alt="Profile"
+            className="w-10 h-10 rounded-full border-2 border-primary"
+          />
+        </div>
+        {/* <p className="text-sm font-medium">
+          {user?.displayName || "User"}
+        </p> */}
       </div>
+    </div>
+  ) : (
+    <>
+      <NavLink className="btn btn-primary btn-sm" to="/login">
+        Login
+      </NavLink>
+    </>
+  )}
+</div>
+
     </div>
   );
 };

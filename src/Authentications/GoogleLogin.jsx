@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import useAxios from "../hooks/useAxios";
+import Swal from "sweetalert2";
 
 const GoogleLogin = () => {
   const { signInWithGoogle } = useAuth();
@@ -26,10 +27,16 @@ const GoogleLogin = () => {
 try {
   const res = await axiosInstance.post("/users", userInfo);
   console.log("User update response:", res.data);
-  navigate(from || "/");
+  Swal.fire("Success", "Account created successfully", "success").then(() =>
+    navigate(from || "/")
+          // navigate(from)
+        );
+
 } catch (error) {
   console.error("Error posting user info:", error);
 }
+
+
 
       })
       .catch((error) => {

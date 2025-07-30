@@ -91,7 +91,7 @@ const RequestCharityRoleForm = () => {
       }
 
       if (result.paymentIntent.status === "succeeded") {
-        // 3. Save Charity Request
+        // 3. Save Charity Request (Transaction backend এ auto save হবে)
         await axios.post("http://localhost:3000/charity-requests", {
           name: user.displayName,
           email: user.email,
@@ -99,15 +99,6 @@ const RequestCharityRoleForm = () => {
           mission,
           transactionId: result.paymentIntent.id,
           amount,
-        });
-
-        // 4. Save Transaction Record
-        await axios.post("http://localhost:3000/transactions", {
-          transactionId: result.paymentIntent.id,
-          email: user.email,
-          amount,
-          purpose: "Charity Role Request",
-          date: new Date().toISOString(),
         });
 
         toast.success("Charity Role Request Submitted Successfully!");
@@ -188,7 +179,7 @@ const RequestCharityRoleForm = () => {
             : "bg-green-500 hover:bg-green-600"
         }`}
       >
-        {hasPendingRequest ? "Request Already Submitted" : `Pay $${amount} & Request Role`}
+         Pay ${amount}
       </button>
     </form>
   );

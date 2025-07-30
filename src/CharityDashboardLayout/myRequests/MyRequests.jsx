@@ -11,52 +11,116 @@ const MyRequests = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    axiosSecure.get(`/charity/requests?email=${user.email}`).then((res) => {
+    axiosSecure.get(`/requests?email=${user.email}`).then((res) => {
       setRequests(res.data);
     });
   }, [user.email, axiosSecure]);
 
-  const handleCancel = (id) => {
+  // Delete button handler
+  const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You want to cancel this request?",
+      text: "You want to delete this request?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, cancel it!",
+      confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/charity/requests/${id}`).then(() => {
-          setRequests(requests.filter((req) => req._id !== id));
-          Swal.fire("Cancelled!", "Your request has been cancelled.", "success");
+        axiosSecure.delete(`/requests/${id}`).then(() => {
+          setRequests((prev) => prev.filter((req) => req._id !== id));
+          Swal.fire("Deleted!", "Your request has been deleted.", "success");
         });
       }
     });
   };
 
+  // Accept button handler
+  const handleAccept = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to accept this confirmed pickup?",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "Yes, accept it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // এখানে চাইলে তুমি status আপডেট করার API কল করতে পারো
+        axiosSecure.patch(`/requests/${id}`, { status: "Accepted" }).then(() => {
+          setRequests((prev) =>
+            prev.map((req) =>
+              req._id === id ? { ...req, status: "Accepted" } : req
+            )
+          );
+          Swal.fire("Accepted!", "Pickup has been accepted.", "success");
+        });
+      }
+    });
+  };
+
+  if (requests.length === 0)
+    return <p className="text-gray-500">No requests found.</p>;
+
   return (
-    <div className="grid gap-4">
-      {requests.length === 0 && (
-        <p className="text-gray-500">No requests found.</p>
-      )}
-
-      {requests.map((req) => (
-        <div key={req._id} className="p-4 border rounded shadow bg-white">
-          <h3 className="font-bold">{req.donationTitle || "No Title"}</h3>
-          <p>Restaurant: {req.restaurantName || "N/A"}</p>
-          <p>Food Type: {req.foodType || "N/A"}</p>
-          <p>Quantity: {req.quantity || "N/A"}</p>
-          <p>Status: {req.status}</p>
-
-          {req.status === "Pending" && (
-            <button
-              onClick={() => handleCancel(req._id)}
-              className="bg-red-500 text-white px-3 py-1 rounded mt-2"
-            >
-              Cancel
-            </button>
-          )}
-        </div>
-      ))}
+    <div className="overflow-x-auto">
+      <table className="min-w-full border border-gray-300 divide-y divide-gray-200">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+              Donation Title
+            </th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+              Charity Name
+            </th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+              Charity Email
+            </th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+              Request Description
+            </th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+              Pickup Time
+            </th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
+              Status
+            </th>
+            <th className="px-4 py-2 text-center text-sm font-medium text-gray-700 border">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {requests.map((req) => (
+            <tr key={req._id} className="text-sm text-gray-700">
+              <td className="px-4 py-2 border">{req.donationTitle || "No Title"}</td>
+              <td className="px-4 py-2 border">{req.charityName || "N/A"}</td>
+              <td className="px-4 py-2 border">{req.charityEmail || "N/A"}</td>
+              <td className="px-4 py-2 border">{req.requestDescription || "N/A"}</td>
+              <td className="px-4 py-2 border">
+                {new Date(req.pickupTime).toLocaleString() || "N/A"}
+              </td>
+              <td className="px-4 py-2 border">{req.status}</td>
+              <td className="px-4 py-2 border text-center space-x-2">
+                {req.status === "Pending" && (
+                  <button
+                    onClick={() => handleDelete(req._id)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                  >
+                    Delete
+                  </button>
+                )}
+                {req.status === "Confirmed Pickup" && (
+                  <button
+                    onClick={() => handleAccept(req._id)}
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
+                  >
+                    Accept
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

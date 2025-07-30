@@ -3,7 +3,12 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
 const RequestModal = ({ donation, user, onClose, onSuccess }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
@@ -12,7 +17,7 @@ const RequestModal = ({ donation, user, onClose, onSuccess }) => {
       donationTitle: donation.title,
       restaurantId: donation.restaurantId,
       restaurantName: donation.restaurantName,
-      charityName: user.displayName || user.name,
+      charityName: user.displayName || user.name || "Anonymous",
       charityEmail: user.email,
       requestDescription: data.requestDescription,
       pickupTime: data.pickupTime,
@@ -27,15 +32,15 @@ const RequestModal = ({ donation, user, onClose, onSuccess }) => {
       onClose();
       if (onSuccess) onSuccess();
     } catch (error) {
-      Swal.fire("Error", error.response?.data?.message || "Failed to submit request", "error");
+      Swal.fire("Error", error.response?.data?.message || error.message || "Failed to submit request", "error");
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div className="fixed inset-0  bg-opacity-40 flex items-center justify-center z-50">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-6 rounded-lg shadow-md max-w-md w-full space-y-4"
+        className="bg-blue-300 text-black p-6 rounded-lg shadow-md max-w-md w-full space-y-4"
       >
         <h2 className="text-2xl font-bold mb-2">Request Donation</h2>
 
@@ -66,11 +71,12 @@ const RequestModal = ({ donation, user, onClose, onSuccess }) => {
           <label className="block text-sm font-medium">Charity Name</label>
           <input
             type="text"
-            value={user.displayName || user.name}
+            value={user.displayName || user.name || "Anonymous"}
             readOnly
             className="w-full p-2 border rounded bg-gray-100"
           />
         </div>
+
         <div>
           <label className="block text-sm font-medium">Charity Email</label>
           <input
@@ -88,7 +94,7 @@ const RequestModal = ({ donation, user, onClose, onSuccess }) => {
             {...register("requestDescription", { required: "Description is required" })}
             className="w-full p-2 border rounded"
             placeholder="Why do you need this donation?"
-          ></textarea>
+          />
           {errors.requestDescription && (
             <p className="text-red-500 text-sm">{errors.requestDescription.message}</p>
           )}

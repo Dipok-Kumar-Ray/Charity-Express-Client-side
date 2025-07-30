@@ -38,6 +38,7 @@ import ManageRequests from "../AdminDashboardLagyouts/manageRequests/ManageReque
 import FeatureDonations from "../AdminDashboardLagyouts/featureDonations/FeatureDonations";
 import ManageDonations from "../AdminDashboardLagyouts/manageDonatons/ManageDonations";
 import RequestCharityRole from "../UserDashboardRole/requestCharityRole/RequestCharityRole";
+import DonationStatistics from "../featureDonations/DonationStatistics";
 
 export const router = createBrowserRouter([
   {
@@ -144,6 +145,11 @@ export const router = createBrowserRouter([
         path: "requested-donations",
       element: <RequestedDonations/>
       },
+      {
+        path: 'feature-donations',
+        element: <FeatureDonations/>
+      },
+
     ],
   },
 
