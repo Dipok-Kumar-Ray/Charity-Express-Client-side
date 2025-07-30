@@ -36,7 +36,7 @@ const RequestCharityRoleForm = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:3000/charity-requests/${user.email}`)
+        .get(`https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app/charity-requests/${user.email}`)
         .then((res) => {
           if (
             res.data?.status === "Pending" ||
@@ -62,7 +62,7 @@ const RequestCharityRoleForm = () => {
 
     try {
       // 1. Create Payment Intent
-      const { data } = await axios.post("http://localhost:3000/create-payment-intent", {
+      const { data } = await axios.post("https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app/create-payment-intent", {
         amount,
       });
 
@@ -92,7 +92,7 @@ const RequestCharityRoleForm = () => {
 
       if (result.paymentIntent.status === "succeeded") {
         // 3. Save Charity Request (Transaction backend এ auto save হবে)
-        await axios.post("http://localhost:3000/charity-requests", {
+        await axios.post("https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app/charity-requests", {
           name: user.displayName,
           email: user.email,
           organization,

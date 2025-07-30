@@ -4,7 +4,7 @@ import CharityLogo from "./CharityLogo";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
- console.log("Navbar user:", user);  
+//  console.log("Navbar user:", user);  
   const handleSignOut = () => {
     logOut()
       .then((result) => {

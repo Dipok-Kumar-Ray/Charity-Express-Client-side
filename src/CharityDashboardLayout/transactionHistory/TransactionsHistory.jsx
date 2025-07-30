@@ -6,7 +6,7 @@ const TransactionHistory = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/charity-requests")
+      .get("https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app/charity-requests")
       .then((res) => setTransactions(res.data))
       .catch((err) => console.error(err));
   }, []);

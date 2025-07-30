@@ -16,7 +16,7 @@ const RequestCharity = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:3000/create-checkout-session", {
+      const res = await axios.post("https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app/create-checkout-session", {
         name: user?.displayName,
         email: user?.email,
         orgName,

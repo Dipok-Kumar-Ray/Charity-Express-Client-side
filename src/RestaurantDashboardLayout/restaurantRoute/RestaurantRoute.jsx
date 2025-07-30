@@ -11,11 +11,11 @@ const RestaurantRoute = ({ children }) => {
     return <p className="text-center">Loading...</p>;
   }
 
-  if (user && role === "restaurant") {
+  if (user && role === "restauran || charity || admin") {
     return children;
   }
 
-  return <Navigate to="/login" state={{ from: location }} replace />;
+  return <Navigate to="/forbidden" state={{ from: location }} replace />;
 };
 
 export default RestaurantRoute;

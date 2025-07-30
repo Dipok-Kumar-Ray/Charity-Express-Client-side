@@ -8,16 +8,16 @@ import Home from "../Home/Home";
 import Register from "../Authentications/Register";
 import Login from "../Authentications/Login";
 import AuthLayout from "../layouts/AuthLayout";
-// import NotFound from "../pages/NotFound";
+import NotFound from "../pages/NotFound";
 import AboutUs from "../pages/AboutUs/AboutUs";
 // import RequestCharity from "../Dashboard/requestCharity/RequestCharity";
 import Favorites from "../Dashboard/favorites/Favorites";
 import SuccessPage from "../Dashboard/transactionHistory/successPage/Success";
-// import Forbidden from "../routes/Forbidden";
+import Forbidden from "../routes/Forbidden";
 import MyProfile from "../UserDashboardRole/myProfile/MyProfile";
 import MyReviews from "../UserDashboardRole/myReviews/MyReviews";
 import TransactionHistory from "../UserDashboardRole/transactionHistory/TransactionHistoy";
-// import RestaurantRoute from "../RestaurantDashboardLayout/restaurantRoute/RestaurantRoute";
+import RestaurantRoute from "../RestaurantDashboardLayout/restaurantRoute/RestaurantRoute";
 import RestaurantDashboardLayout from "../RestaurantDashboardLayout/RestaurantDashboardLayout";
 import CharityProfile from "../CharityDashboardLayout/charityProfile/CharityProfile";
 import CharityDashboardLayout from "../CharityDashboardLayout/charityDashboardLayout/CharityDashboardLayout";
@@ -39,6 +39,7 @@ import FeatureDonations from "../AdminDashboardLagyouts/featureDonations/Feature
 import ManageDonations from "../AdminDashboardLagyouts/manageDonatons/ManageDonations";
 import RequestCharityRole from "../UserDashboardRole/requestCharityRole/RequestCharityRole";
 import DonationStatistics from "../featureDonations/DonationStatistics";
+// import AdminRoute from "../AdminDashboardLagyouts/adminRoute/AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -122,12 +123,12 @@ export const router = createBrowserRouter([
   // restaurant dashboard
   {
     path: "restaurant-dashboard",
-    // element: (
-    //   <RestaurantRoute>
-    //     <RestaurantDashboardLayout />
-    //   </RestaurantRoute>
-    // ),
-    element: <RestaurantDashboardLayout/>,
+    element: (
+      <RestaurantRoute>
+        <RestaurantDashboardLayout />
+      </RestaurantRoute>
+    ),
+    // element: <RestaurantDashboardLayout/>,
     children: [
       {
         path: "restaurant-profile",
@@ -158,7 +159,7 @@ export const router = createBrowserRouter([
     path: "charity-dashboard",
     element: (
       <PrivateRoute>
-        <CharityDashboardLayout />
+       <RestaurantRoute><CharityDashboardLayout></CharityDashboardLayout></RestaurantRoute>
       </PrivateRoute>
     ),
     children: [
@@ -189,7 +190,7 @@ export const router = createBrowserRouter([
   {
     path: "/admin-dashboard",
     // element:<PrivateRoute><AdminDashboardLayouts></AdminDashboardLayouts></PrivateRoute>, 
-    element: <PrivateRoute><AdminDashboardLayouts/></PrivateRoute>,
+    element: <PrivateRoute><RestaurantRoute><AdminDashboardLayouts></AdminDashboardLayouts></RestaurantRoute></PrivateRoute>,
     children: [
       {
         path: "profile",
@@ -223,13 +224,13 @@ export const router = createBrowserRouter([
     element: <SuccessPage />,
   },
 
-  // {
-  //   path: "/forbidden",
-  //   element: <Forbidden />,
-  // },
+  {
+    path: "/forbidden",
+    element: <Forbidden />,
+  },
 
-  // {
-  //   path: "*",
-  //   element: <NotFound />,
-  // },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
