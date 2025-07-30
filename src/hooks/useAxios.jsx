@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
     const axiosInstance = axios.create({
-        baseURL: `https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app`
+        baseURL: `https://charity-ex-server-side.vercel.app`
     })
 
     const useAxios = () => {

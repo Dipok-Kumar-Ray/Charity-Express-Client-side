@@ -124,9 +124,9 @@ export const router = createBrowserRouter([
   {
     path: "restaurant-dashboard",
     element: (
-      <RestaurantRoute>
+     
         <RestaurantDashboardLayout />
-      </RestaurantRoute>
+
     ),
     // element: <RestaurantDashboardLayout/>,
     children: [
@@ -159,7 +159,7 @@ export const router = createBrowserRouter([
     path: "charity-dashboard",
     element: (
       <PrivateRoute>
-       <RestaurantRoute><CharityDashboardLayout></CharityDashboardLayout></RestaurantRoute>
+       <CharityDashboardLayout></CharityDashboardLayout>
       </PrivateRoute>
     ),
     children: [
@@ -190,7 +190,7 @@ export const router = createBrowserRouter([
   {
     path: "/admin-dashboard",
     // element:<PrivateRoute><AdminDashboardLayouts></AdminDashboardLayouts></PrivateRoute>, 
-    element: <PrivateRoute><RestaurantRoute><AdminDashboardLayouts></AdminDashboardLayouts></RestaurantRoute></PrivateRoute>,
+    element: <PrivateRoute><AdminDashboardLayouts></AdminDashboardLayouts></PrivateRoute>,
     children: [
       {
         path: "profile",

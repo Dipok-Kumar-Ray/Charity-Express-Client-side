@@ -11,7 +11,8 @@ const RestaurantRoute = ({ children }) => {
     return <p className="text-center">Loading...</p>;
   }
 
-  if (user && role === "restauran || charity || admin") {
+  if (user && role === "restaurant || charity || admin") {
+    
     return children;
   }
 

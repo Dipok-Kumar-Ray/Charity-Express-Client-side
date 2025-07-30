@@ -16,7 +16,7 @@ const Favorites = () => {
     const fetchFavorites = async () => {
       try {
         const res = await axios.get(
-          `https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app/favorites?userEmail=${user.email}`
+          `https://charity-ex-server-side.vercel.app/favorites?userEmail=${user.email}`
         );
         console.log("Fetched favorites:", res.data);
         setFavorites(res.data);
@@ -37,7 +37,7 @@ const Favorites = () => {
     if (!confirm("Remove this donation from favorites?")) return;
 
     try {
-      await axios.delete(`https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app/favorites/${id}`);
+      await axios.delete(`https://charity-ex-server-side.vercel.app/favorites/${id}`);
       setFavorites((prev) => prev.filter((item) => item._id !== id));
     } catch (error) {
       console.error("Error removing favorite:", error);

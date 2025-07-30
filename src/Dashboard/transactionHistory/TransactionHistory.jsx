@@ -9,7 +9,7 @@ const TransactionHistory = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app/transactions?email=${user.email}`)
+        .get(`https://charity-ex-server-side.vercel.app/transactions?email=${user.email}`)
         .then((res) => setTransactions(res.data))
         .catch((err) => console.error(err));
     }
@@ -20,7 +20,7 @@ const TransactionHistory = () => {
     if (!confirm) return;
 
     try {
-      await axios.delete(`https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app/transactions/${id}`);
+      await axios.delete(`https://charity-ex-server-side.vercel.app/transactions/${id}`);
       setTransactions((prev) => prev.filter((t) => t._id !== id));
     } catch (err) {
       console.error("Delete error:", err);

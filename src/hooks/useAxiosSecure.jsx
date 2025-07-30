@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 // import useAuth from "./useAuth";
 
 const axiosSecure= axios.create({
-  baseURL: "https://charity-ex-server-side-gf29dzrwj-dipok-kumar-rays-projects.vercel.app", // তোমার backend server URL
+  baseURL: "https://charity-ex-server-side.vercel.app", // তোমার backend server URL
   headers: {
     "Content-Type": "application/json",
   },
