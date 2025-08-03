@@ -29,7 +29,7 @@ const ReviewModal = ({ donationId, user, onClose }) => {
     <div className="fixed inset-0 bg-primary bg-opacity-50 flex items-center justify-center z-50">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="p-6 rounded shadow max-w-md w-full bg-white"
+        className="p-6 rounded shadow max-w-md w-full "
       >
         <h3 className="text-xl font-bold mb-4">Add Review</h3>
 

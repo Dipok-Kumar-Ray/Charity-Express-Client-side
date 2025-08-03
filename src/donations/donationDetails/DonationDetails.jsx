@@ -22,7 +22,7 @@ const DonationDetails = () => {
 
   const [donation, setDonation] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState();
   const [loadingRole, setLoadingRole] = useState(true);
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -126,8 +126,8 @@ const DonationDetails = () => {
   };
 
   return (
-    <div className="mt-8 max-w-3xl mx-auto p-8 rounded-lg shadow-lg border">
-      <h2 className="text-4xl font-extrabold mb-6 text-gray-900">{donation.title}</h2>
+    <div className="mt-28 max-w-3xl mx-auto p-8 rounded-lg shadow-lg border">
+      <h2 className="text-4xl font-extrabold mb-6 text-blue-700">{donation.title}</h2>
 
       <div className="flex flex-col md:flex-row gap-6">
         <img

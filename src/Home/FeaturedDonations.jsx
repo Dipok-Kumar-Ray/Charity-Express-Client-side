@@ -1,7 +1,3 @@
-// import { Link } from "react-router"; // Add this import
-// import useAxiosSecure from "../hooks/useAxiosSecure";
-// import { useQuery } from "@tanstack/react-query";
-
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { Link } from "react-router";

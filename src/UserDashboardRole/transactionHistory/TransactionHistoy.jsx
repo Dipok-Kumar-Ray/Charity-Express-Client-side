@@ -9,7 +9,7 @@ const TransactionHistory = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const res = await axios.get(`https://charity-ex-server-side.vercel.app/transactions/${user.email}`);
+        const res = await axios.get(`http://localhost:3000/transactions/${user.email}`);
         setTransactions(res.data);
       } catch (err) {
         console.error(err);

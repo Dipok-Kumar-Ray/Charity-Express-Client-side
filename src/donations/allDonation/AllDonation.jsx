@@ -1,43 +1,63 @@
-import { useEffect, useState } from "react";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useState } from "react";
 import { Link } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AllDonation = () => {
-  const [donations, setDonations] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("");
   const axiosSecure = useAxiosSecure();
 
-  // Load donations
-  useEffect(() => {
-    const fetchDonations = async () => {
-      try {
-        const res = await axiosSecure.get("/donations");
-        setDonations(res.data);
-      } catch (error) {
-        console.error("Failed to fetch donations", error);
-      }
-    };
-    fetchDonations();
-  }, [axiosSecure]);
+  // Fetch donations using React Query
+  const {
+    data: donations = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["donations"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/donations");
+      return res.data;
+    },
+  });
+
+  // Loading state
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-64">
+        <span className="loading loading-spinner"></span>
+      </div>
+    );
+
+  // Error state
+  if (isError)
+    return (
+      <div className="text-center text-red-500 py-10">
+        Failed to load donations
+      </div>
+    );
 
   // Filter only available/verified/pickedup
   const visibleDonations = donations.filter((donation) => {
     const status = donation.status?.toLowerCase();
-    return status === "available" || status === "verified" || status === "pickedup";
+    return (
+      status === "available" ||
+      status === "verified" ||
+      status === "pickedup"
+    );
   });
 
-  // Search filter
+  // Search filter (case insensitive)
   const searchedDonations = visibleDonations.filter((donation) =>
-    donation.location.toLowerCase().includes(searchTerm.toLowerCase())
+    donation.location?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Sort logic
   const sortedDonations = [...searchedDonations].sort((a, b) => {
     if (sortOption === "quantity") {
-      return Number(b.quantity) - Number(a.quantity);
+      return Number(b.quantity) - Number(a.quantity); // High to Low
     } else if (sortOption === "pickupTime") {
-      return new Date(a.pickupTime) - new Date(b.pickupTime);
+      return new Date(a.pickupTime) - new Date(b.pickupTime); // Soonest First
     }
     return 0;
   });
@@ -79,53 +99,57 @@ const AllDonation = () => {
       </div>
 
       {/* Donation grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {sortedDonations.map((donation) => (
-          <div
-            key={donation._id}
-            className="group relative dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 transition duration-300 hover:bg-green-50 hover:shadow-xl hover:border-green-400 dark:hover:bg-gray-700"
-          >
-            <img
-              src={donation.image}
-              alt={donation.title}
-              className="h-48 w-full object-cover rounded-xl mb-4"
-            />
-            <h3 className="text-xl font-semibold text-green-700 dark:text-green-200 mb-2">
-              {donation.title}
-            </h3>
-
-            <p className="text-gray-600 dark:text-gray-300 mb-1">
-              🍽️ <strong>Restaurant:</strong> {donation.restaurantName} (
-              {donation.location})
-            </p>
-
-            <p className="text-gray-600 dark:text-gray-300 mb-1">
-              📦 <strong>Quantity:</strong> {donation.quantity}
-            </p>
-
-            <p className="text-gray-600 dark:text-gray-300 mb-1">
-              ⏰ <strong>Pickup Time:</strong> {donation.pickupTime}
-            </p>
-
-            <span
-              className={`inline-block text-xs font-semibold mt-2 mb-3 px-3 py-1 rounded-full ${getStatusBadge(
-                donation.status
-              )}`}
+      {sortedDonations.length === 0 ? (
+        <p className="text-center text-gray-500">No donations found</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {sortedDonations.map((donation) => (
+            <div
+              key={donation._id}
+              className="group relative dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 transition duration-300 hover:bg-green-50 hover:shadow-xl hover:border-green-400 dark:hover:bg-gray-700"
             >
-              {donation.status.toLowerCase() === "verified"
-                ? "available"
-                : donation.status}
-            </span>
+              <img
+                src={donation.image}
+                alt={donation.title}
+                className="h-48 w-full object-cover rounded-xl mb-4"
+              />
+              <h3 className="text-xl font-semibold text-green-700 dark:text-green-200 mb-2">
+                {donation.title}
+              </h3>
 
-            <Link
-              to={`/donationDetails/${donation._id}`}
-              className="block text-center bg-green-600 text-white font-medium py-2 px-4 rounded-xl mt-2 hover:bg-green-700 transition duration-200"
-            >
-              View Details
-            </Link>
-          </div>
-        ))}
-      </div>
+              <p className="text-gray-600 dark:text-gray-300 mb-1">
+                🍽️ <strong>Restaurant:</strong> {donation.restaurantName} (
+                {donation.location})
+              </p>
+
+              <p className="text-gray-600 dark:text-gray-300 mb-1">
+                📦 <strong>Quantity:</strong> {donation.quantity}
+              </p>
+
+              <p className="text-gray-600 dark:text-gray-300 mb-1">
+                ⏰ <strong>Pickup Time:</strong> {donation.pickupTime}
+              </p>
+
+              <span
+                className={`inline-block text-xs font-semibold mt-2 mb-3 px-3 py-1 rounded-full ${getStatusBadge(
+                  donation.status
+                )}`}
+              >
+                {donation.status.toLowerCase() === "verified"
+                  ? "available"
+                  : donation.status}
+              </span>
+
+              <Link
+                to={`/donationDetails/${donation._id}`}
+                className="block text-center bg-green-600 text-white font-medium py-2 px-4 rounded-xl mt-2 hover:bg-green-700 transition duration-200"
+              >
+                View Details
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
