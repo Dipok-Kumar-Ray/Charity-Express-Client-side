@@ -2,7 +2,7 @@ import CountUp from "react-countup";
 
 const ImpactStats = () => {
   return (
-    <section className="community-impact bg-amber-50 text-white py-12">
+    <section className="community-impact bg-gray-100 text-green-800 py-12">
       <h2 className="text-3xl font-bold text-green-500 flex items-center justify-center gap-2">
         <img src="/path-to-icon.png" alt="impact icon" className="h-8 w-8" />
         Our Community Impact

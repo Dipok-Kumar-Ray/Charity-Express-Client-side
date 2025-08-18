@@ -1,10 +1,37 @@
 import { NavLink } from "react-router";
 import useAuth from "../hooks/useAuth";
 import CharityLogo from "./CharityLogo";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
 //  console.log("Navbar user:", user);  
+
+ const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   const handleSignOut = () => {
     logOut()
       .then((result) => {
@@ -164,6 +191,11 @@ const navItems = (
             {navItems}
           </ul>
         </div>
+
+
+
+
+
         <button className="btn btn-ghost text-xl">
           <CharityLogo />
         </button>
@@ -171,31 +203,22 @@ const navItems = (
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
-      {/* <div className="navbar-end">
-        {user ? (
-          <div className="flex items-center gap-2 ">
-            <button onClick={handleSignOut} className="rounded-4xl btn btn-accent">
-              Log Out
-            </button>
-            <div
-              className="tooltip tooltip-bottom"
-              data-tip={user.displayName || "No Name"}
-            >
-              <img
-                src={user.photoURL || "https://i.ibb.co/ZYW3VTp/brown-brim.png"}
-                alt="Profile"
-                className="w-10 h-10 rounded-full border-2 border-primary"
-              />
-            </div>
-          </div>
-        ) : (
-          <>
-            <NavLink className="btn btn-primary btn-sm" to="/login">
-              Login
-            </NavLink>
-          </>
-        )}
-      </div> */}
+
+       {/* toggle theme  */}
+        <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1 space-x-2">
+          {/* {links} */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            {theme === "dark" ? "🌞" : "🌙"}
+          </button>
+        </ul>
+      </div>
+
+
       <div className="navbar-end">
   {user ? (
     <div className="flex items-center gap-2">

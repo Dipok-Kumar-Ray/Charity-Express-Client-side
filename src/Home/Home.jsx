@@ -11,9 +11,9 @@ const Home = () => {
     return (
         <div>
             <HomeSlider/>
-            <FeaturedDonations/>
             <CommunityStories/>
             <ImpactStats/>
+            <FeaturedDonations/>
         </div>
     );
 };
