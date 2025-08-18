@@ -22,7 +22,7 @@ const FeaturedDonations = () => {
   if (isLoading) return <span className="loading loading-bars loading-xl"></span>;
 
   return (
-    <div className="py-12 my-12 bg-base-300 rounded-2xl px-6 max-w-7xl mx-auto shadow-md">
+    <div className="py-12 my-12 bg-base-300 rounded-2xl px-6 max-w-xl lg:max-w-7xl mx-auto shadow-md">
       <h2 className="text-3xl font-extrabold text-center mb-10 text-green-700 drop-shadow-md">
         🌟 Featured Donations
       </h2>
@@ -41,7 +41,7 @@ const FeaturedDonations = () => {
               {/* Image */}
               <figure className="h-46 w-full overflow-hidden">
                 <img
-                  src={donation.imageUrl}
+                  src={donation.photoUrl}
                   alt={donation.title}
                   className="object-cover w-full h-full transform group-hover:scale-110 transition duration-500"
                 />

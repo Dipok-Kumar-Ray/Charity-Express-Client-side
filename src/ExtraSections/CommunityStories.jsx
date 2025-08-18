@@ -27,8 +27,8 @@ const CommunityStories = () => {
   ];
 
   return (
-    <section className="bg-gray-100 py-12 px-4 md:px-10">
-      <h2 className="text-3xl font-bold text-green-800 text-center">
+    <section className="py-12 my-12 bg-base-300 rounded-2xl px-6 max-w-xl mx-auto lg:max-w-7xl  shadow-md">
+      <h2 className="text-3xl font-bold text-green-800 text-center mb-17">
         Community Stories
       </h2>
 
@@ -36,14 +36,18 @@ const CommunityStories = () => {
         {stories.map((story, idx) => (
           <div
             key={idx}
-            className="bg-gradient-to-br from-white via-green-50 to-white p-6 rounded-xl shadow-md flex flex-col md:flex-row items-center gap-6 
-              hover:shadow-2xl hover:scale-[1.02] transition duration-300 ease-in-out"
+            className="relative group  rounded-2xl shadow-lg hover:shadow-2xl border overflow-hidden transition duration-300 lex flex-col md:flex-row items-center gap-6 
+               hover:scale-[1.02]  ease-in-out"
           >
-            <img
+
+ <div className="flex gap-6 p-4"> 
+             <div>
+              <img
               src={story.image}
               alt={story.name}
-              className="w-24 h-24 rounded-full object-cover ring-4 ring-green-200"
+              className="w-24 h-24 lg:w-full rounded-full object-cover ring-4 ring-green-200"
             />
+             </div>
             <div>
               <h4 className="text-xl font-semibold text-green-900">
                 {story.name}
@@ -52,6 +56,7 @@ const CommunityStories = () => {
                 “{story.quote}”
               </p>
             </div>
+ </div>
           </div>
         ))}
       </div>

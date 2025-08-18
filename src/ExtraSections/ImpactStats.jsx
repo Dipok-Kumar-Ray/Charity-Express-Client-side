@@ -2,7 +2,7 @@ import CountUp from "react-countup";
 
 const ImpactStats = () => {
   return (
-    <section className="community-impact bg-gray-100 text-green-800 py-12">
+    <section className="max-w-xl lg:max-w-7xl lg: mx-auto community-impact text-green-800 py-12 rounded-2xl mb-7">
       <h2 className="text-3xl font-bold text-green-500 flex items-center justify-center gap-2">
         <img src="/path-to-icon.png" alt="impact icon" className="h-8 w-8" />
         Our Community Impact
@@ -11,7 +11,7 @@ const ImpactStats = () => {
         Track how our collective actions are reducing waste, serving meals, and saving the planet.
       </p>
 
-      <div className="flex justify-center gap-16">
+      <div className="flex justify-center gap-3 max-w-xl mx-auto lg:gap-7 lg:justify-between">
         {/* Food Donated */}
         <div className="bg-amber-100 text-center p-6bg-amber-50 rounded-lg w-48">
           <div className="text-4xl font-extrabold text-orange-500">

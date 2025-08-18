@@ -20,12 +20,12 @@ const LatestCharityRequests = () => {
   if (isLoading) return <span className="loading loading-bars loading-xl"></span>;
 
   return (
-    <div className="max-w-6xl bg-base-100 mx-auto px-4 py-10 my-10 rounded-xl">
+    <div className="max-w-xl lg:max-w-7xl lg:px-3 bg-base-100 mx-auto my-10 rounded-xl">
       <h2 className="text-3xl text-green-700 font-bold mb-8 text-center">
         Latest Charity Requests
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
         {requests.slice(0, 3).map((req) => (
           <div
             key={req._id}
