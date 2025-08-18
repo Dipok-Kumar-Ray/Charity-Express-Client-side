@@ -204,7 +204,12 @@ const navItems = (
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
 
-       {/* toggle theme  */}
+
+
+
+      <div className="navbar-end">
+
+           {/* toggle theme  */}
         <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 space-x-2">
           {/* {links} */}
@@ -219,7 +224,6 @@ const navItems = (
       </div>
 
 
-      <div className="navbar-end">
   {user ? (
     <div className="flex items-center gap-2">
       <button onClick={handleSignOut} className="rounded-4xl btn btn-accent">
