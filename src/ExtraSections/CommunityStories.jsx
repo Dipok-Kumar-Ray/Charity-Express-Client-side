@@ -28,7 +28,7 @@ const CommunityStories = () => {
 
   return (
     <section className="bg-gray-100 py-12 px-4 md:px-10">
-      <h2 className="text-3xl font-bold text-green-800 text-center mb-10">
+      <h2 className="text-3xl font-bold text-green-800 text-center">
         Community Stories
       </h2>
 

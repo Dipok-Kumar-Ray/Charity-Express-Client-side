@@ -5,7 +5,7 @@ import CharityLogo from "./CharityLogo";
 
 const Footer = () => {
   return (
-    <footer className="bg-green-900 text-white py-10 mt-20">
+    <footer className="bg-green-900 text-white py-10 ">
       <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-8 text-center md:text-left">
         {/* Project Info */}
         <div className="text-center">

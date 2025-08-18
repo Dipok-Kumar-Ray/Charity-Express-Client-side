@@ -7,9 +7,7 @@ import FeaturedDonations from './FeaturedDonations';
 
 
 const Home = () => {
-    // const {role} = UseUserRole();
-    // const {user} = useAuth()
-    // console.log(role, user);
+
     return (
         <div>
             <HomeSlider/>
