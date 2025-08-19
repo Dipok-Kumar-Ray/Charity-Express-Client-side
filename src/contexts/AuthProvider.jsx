@@ -52,25 +52,6 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  // Fetch role from backend and merge
- /*  const fetchUserRole = async (firebaseUser) => {
-    try {
-      const res = await axios.get(`http://localhost:3000/users/${firebaseUser.email}`);
-      const role = res.data.role || 'user';
-
-      // Merge properly
-      setUser({
-        uid: firebaseUser.uid,
-        email: firebaseUser.email,
-        displayName: firebaseUser.displayName,
-        photoURL: firebaseUser.photoURL,
-        role
-      });
-    } catch (error) {
-      console.error("Error fetching user role:", error);
-      setUser(firebaseUser);
-    }
-  }; */
 
 const fetchUserRole = async (firebaseUser) => {
   try {

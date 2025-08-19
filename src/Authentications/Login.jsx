@@ -6,6 +6,7 @@ import LoginAnination from "../../src/assets/TemanASN Home Mobile.json";
 import Lottie from "lottie-react";
 import { useState } from "react";
 import { getAuth } from "firebase/auth";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const {
@@ -41,9 +42,21 @@ const onSubmit = async (data) => {
     localStorage.setItem("access-token", token);
 
     navigate(from);
-  } catch (error) {
-    console.error("Login Error:", error);
   }
+   catch (error) {
+  console.error("Login Error:", error.code, error.message);
+
+  if (error.code === "auth/user-not-found") {
+    toast.error("No user found with this email!");
+  } else if (error.code === "auth/wrong-password") {
+    toast.error("Incorrect password!");
+  } else if (error.code === "auth/invalid-email") {
+    toast.error("Invalid email format!");
+  } else {
+    toast.error("Login failed. Try again!");
+  }
+}
+
 };
 
 
@@ -71,11 +84,13 @@ const onSubmit = async (data) => {
           <fieldset className="fieldset">
             <label className="label">Email : </label>
             <input
-              type="email"
-              {...register("email")}
-              className="input"
-              placeholder="Email"
-            />
+  type="email"
+  {...register("email", { required: true })}
+  className="input"
+  placeholder="Email"
+/>
+{errors.email && <p className="text-red-500">Email is required</p>}
+
 
             <label className="label">Password : </label>
             {errors.password?.type === "required" && (
