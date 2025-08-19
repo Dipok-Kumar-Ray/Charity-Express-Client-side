@@ -33,8 +33,8 @@ const AddDonation = () => {
 };
 
   return (
-    <div className="max-w-lg mx-auto  p-6 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Add Donation</h2>
+    <div className="border max-w-lg mx-auto  p-6 rounded shadow">
+      <h2 className="text-2xl font-bold mb-4 text-center">Add Donation</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
         <div>

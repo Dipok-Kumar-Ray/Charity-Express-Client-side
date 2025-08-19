@@ -8,13 +8,13 @@ const RestaurantDashboardLayout = () => {
     <div className="min-h-screen flex">
       {/* Sidebar */}
       <aside className="w-64 bg-gradient-to-b from-green-700 to-green-900 text-white p-6">
-          <CharityLogo/>
-        <h2 className="mt-5 text-2xl font-bold mb-8">Restaurant Panel</h2>
+          <CharityLogo />
+        {/* <h2 className="mt-5 text-2xl font-bold mb-8">Restaurant Panel</h2> */}
 <ul className="space-y-4 text-lg">
-  <li>
+  <li className="mt-8">
     <NavLink
       to="/restaurant-dashboard/restaurant-profile"
-      className={({ isActive, isPending }) =>
+      className={({ isActive }) =>
         `flex items-center gap-2 p-2 rounded-md transition-all duration-300 ease-in-out cursor-pointer transform
          ${
            isActive

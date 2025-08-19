@@ -4,7 +4,7 @@ const ImpactStats = () => {
   return (
     <section className="max-w-xl lg:max-w-7xl lg: mx-auto community-impact text-green-800 py-12 rounded-2xl mb-7">
       <h2 className="text-3xl font-bold text-green-500 flex items-center justify-center gap-2">
-        <img src="/path-to-icon.png" alt="impact icon" className="h-8 w-8" />
+        {/* <img src="/path-to-icon.png" alt="impact icon" className="h-8 w-8" /> */}
         Our Community Impact
       </h2>
       <p className="text-center mb-10 text-2xl text-blue-300">

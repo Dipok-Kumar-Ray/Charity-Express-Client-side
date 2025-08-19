@@ -54,7 +54,7 @@ const ManageDonations = () => {
       <h2 className="text-2xl font-bold mb-4">Manage Donations</h2>
       <div className="overflow-x-auto">
         <table className="table w-full border">
-          <thead>
+          <thead className="bg-green-300 text-white">
             <tr>
               <th>Title</th>
               <th>Food Type</th>
@@ -84,12 +84,12 @@ const ManageDonations = () => {
                     <span className="text-red-600 font-semibold">Rejected</span>
                   )}
                 </td>
-                <td>
+                <td className="">
                   {donation.status === "Pending" ? (
                     <>
                       <button
                         onClick={() => handleVerify(donation._id)}
-                        className="btn btn-xs btn-success mr-2"
+                        className="my-3 btn btn-xs btn-success mr-2"
                       >
                         Verify
                       </button>

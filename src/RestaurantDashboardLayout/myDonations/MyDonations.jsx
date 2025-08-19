@@ -71,9 +71,9 @@ const MyDonations = () => {
   return (
     <div>
       <h2 className="text-center text-3xl font-bold mb-4">My Donations</h2>
-      <div className="grid md:grid-cols-2 gap-6 bg-green-400">
+      <div className="grid md:grid-cols-2 gap-6">
         {donations.map((donation) => (
-          <div key={donation._id} className="p-4 rounded shadow">
+          <div key={donation._id} className="p-4 rounded shadow border">
             <img
               src={donation.image}
               alt={donation.title}

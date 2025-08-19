@@ -5,7 +5,7 @@ const RestaurantProfile = () => {
   const { user } = useAuth();
 
   return (
-    <div className="p-6 bg-white rounded shadow lg:h-70 lg:w-70">
+    <div className="mt-4 p-6 bg-white rounded shadow lg:h-70 lg:w-70">
       <img
         src={user?.photoURL}
         alt="Restaurant Logo"

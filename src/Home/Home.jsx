@@ -13,8 +13,8 @@ const Home = () => {
     return (
         <div>
             <HomeSlider/>
-            <CommunityStories/>
             <FeaturedDonations/>
+            <CommunityStories/>
             <LatestCharityRequests/>
             <ImpactStats/>
             <DonationStatistics/>

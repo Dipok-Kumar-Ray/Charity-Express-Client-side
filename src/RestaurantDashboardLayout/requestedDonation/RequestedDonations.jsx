@@ -4,26 +4,26 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
 const RequestedDonations = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    axiosSecure.get(`/requests?email=${user.email}`).then((res) => {
-      setRequests(res.data);
-    });
+    if (user?.email) {
+      axiosSecure.get(`/requests?email=${user.email}`).then((res) => {
+        setRequests(res.data);
+      });
+    }
   }, [axiosSecure, user]);
 
   const handleStatusChange = async (id, donationId, status) => {
     await axiosSecure.patch(`/requests/${id}`, { status, donationId });
     Swal.fire("Success!", `Request ${status}`, "success");
 
-    // Update UI instantly
     const updatedRequests = requests.map((req) =>
       req._id === id ? { ...req, status } : req
     );
 
-    // If accepted → auto reject others in UI
     if (status === "Accepted") {
       updatedRequests.forEach((req) => {
         if (req.donationId === donationId && req._id !== id) {
@@ -35,12 +35,20 @@ const RequestedDonations = () => {
     setRequests(updatedRequests);
   };
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!user) {
+    return <p className="text-center">Please login to view your requested donations.</p>;
+  }
+
   return (
     <div>
       <h2 className="text-center text-3xl font-bold mb-4">Requested Donations</h2>
       <div className="overflow-x-auto">
-        <table className="table">
-          <thead>
+        <table className="table border">
+          <thead className="bg-green-400 text-white">
             <tr>
               <th>Donation</th>
               <th>Food Type</th>
@@ -67,7 +75,7 @@ const RequestedDonations = () => {
                         onClick={() =>
                           handleStatusChange(req._id, req.donationId, "Accepted")
                         }
-                        className="btn btn-success btn-sm"
+                        className="btn btn-success btn-sm my-3"
                       >
                         Accept
                       </button>

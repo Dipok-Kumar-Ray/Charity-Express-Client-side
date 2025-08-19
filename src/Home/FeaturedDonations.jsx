@@ -41,7 +41,7 @@ const FeaturedDonations = () => {
               {/* Image */}
               <figure className="h-46 w-full overflow-hidden">
                 <img
-                  src={donation.photoUrl}
+                  src={donation.image}
                   alt={donation.title}
                   className="object-cover w-full h-full transform group-hover:scale-110 transition duration-500"
                 />
