@@ -44,7 +44,7 @@ const MyRequests = () => {
       confirmButtonText: "Yes, accept it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // এখানে চাইলে তুমি status আপডেট করার API কল করতে পারো
+        
         axiosSecure.patch(`/requests/${id}`, { status: "Accepted" }).then(() => {
           setRequests((prev) =>
             prev.map((req) =>
@@ -62,8 +62,9 @@ const MyRequests = () => {
 
   return (
     <div className="overflow-x-auto">
+      <h2 className="text-3xl my-7 font-bold text-center text-green-500">My Requests</h2>
       <table className="min-w-full border border-gray-300 divide-y divide-gray-200">
-        <thead className="bg-gray-100">
+        <thead className="bg-green-300">
           <tr>
             <th className="px-4 py-2 text-left text-sm font-medium text-gray-700 border">
               Donation Title

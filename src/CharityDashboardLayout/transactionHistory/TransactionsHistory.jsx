@@ -13,7 +13,7 @@ const TransactionHistory = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">Transaction History</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">Transaction History</h2>
 
       <div className="overflow-x-auto">
         <table className="table-auto w-full border border-gray-700">
