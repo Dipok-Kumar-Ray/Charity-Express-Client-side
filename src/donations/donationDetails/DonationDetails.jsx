@@ -126,7 +126,7 @@ const DonationDetails = () => {
   };
 
   return (
-    <div className="mt-28 max-w-3xl mx-auto p-8 rounded-lg shadow-lg border">
+    <div className="my-28 max-w-3xl mx-auto p-8 rounded-lg shadow-lg border">
       <h2 className="text-4xl font-extrabold mb-6 text-blue-700">{donation.title}</h2>
 
       <div className="flex flex-col md:flex-row gap-6">
@@ -176,7 +176,7 @@ const DonationDetails = () => {
             {role === "charity" && (status === "available" || status === "verified") && (
               <button
                 onClick={() => setShowRequestModal(true)}
-                className="flex-1 md:flex-none px-5 py-2 bg-indigo-600 font-medium rounded-md hover:bg-indigo-700 transition"
+                className="flex-1 md:flex-none px-5 py-2 font-medium rounded-md hover:bg-green-200transition"
               >
                 Request Donation
               </button>
