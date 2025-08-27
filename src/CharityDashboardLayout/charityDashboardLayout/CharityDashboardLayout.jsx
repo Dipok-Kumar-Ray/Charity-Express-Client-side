@@ -49,16 +49,16 @@ const CharityDashboardLayout = () => {
             icon={<FaClipboardList />}
             label="My Requests"
           />
-          <SidebarLink
+          {/* <SidebarLink
             to="/charity-dashboard/my-pickups"
             icon={<FaTruck />}
             label="My Pickups"
-          />
-          <SidebarLink
+          /> */}
+          {/* <SidebarLink
             to="/charity-dashboard/received-donations"
             icon={<FaGift />}
             label="Received Donations"
-          />
+          /> */}
           <SidebarLink
             to="/charity-dashboard/transaction-history"
             icon={<FaHistory />}
