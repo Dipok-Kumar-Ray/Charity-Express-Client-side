@@ -61,52 +61,63 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
+    <div className="p-4 max-w-7xl mx-auto">
+      <h2 className="text-xl md:text-2xl font-bold mb-4 text-center md:text-left">
+        Manage Users
+      </h2>
 
       {/* Loading state */}
       {loading ? (
-        <p>Loading users...</p>
+        <p className="text-center text-gray-500">Loading users...</p>
+      ) : users.length === 0 ? (
+        <p className="text-center text-gray-500">No users found</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table w-full border">
-            <thead>
+        <div className="overflow-x-auto rounded-lg shadow border">
+          <table className="table w-full">
+            <thead className="bg-green-100 text-orange-300 text-sm md:text-base">
               <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Actions</th>
+                <th className="px-2 md:px-4 py-2">Name</th>
+                <th className="px-2 md:px-4 py-2">Email</th>
+                <th className="px-2 md:px-4 py-2">Role</th>
+                <th className="px-2 md:px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user._id}>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.role || "user"}</td>
-                  <td className="space-x-2">
-                    {/* Make Admin Button */}
+                <tr
+                  key={user._id}
+                  className="border-t text-xs md:text-sm "
+                >
+                  <td className="px-2 md:px-4 py-2">{user.name}</td>
+                  <td className="px-2 md:px-4 py-2 break-words max-w-[150px] md:max-w-none">
+                    {user.email}
+                  </td>
+                  <td className="px-2 md:px-4 py-2">
+                    <span className="capitalize">{user.role || "user"}</span>
+                  </td>
+                  <td className="px-2 md:px-4 py-2 flex flex-wrap gap-2">
+                    {/* Make Admin */}
                     <button
                       onClick={() => handleRoleUpdate(user._id, "admin")}
-                      className="btn btn-xs btn-primary"
+                      className="btn btn-xs md:btn-sm btn-primary"
                       disabled={user.role === "admin"}
                     >
                       Make Admin
                     </button>
 
-                    {/* Make Restaurant Button */}
+                    {/* Make Restaurant */}
                     <button
                       onClick={() => handleRoleUpdate(user._id, "restaurant")}
-                      className="btn btn-xs btn-success"
+                      className="btn btn-xs md:btn-sm btn-success"
                       disabled={user.role === "restaurant"}
                     >
                       Make Restaurant
                     </button>
 
-                    {/* Delete Button */}
+                    {/* Delete */}
                     <button
                       onClick={() => handleDelete(user._id)}
-                      className="btn btn-xs btn-error"
+                      className="btn btn-xs md:btn-sm btn-error"
                     >
                       Delete
                     </button>

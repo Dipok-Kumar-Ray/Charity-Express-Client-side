@@ -1,9 +1,3 @@
-// import React from "react";
-// import { useQuery } from "@tanstack/react-query";
-// import { Link } from "react-router";
-// import useAxiosSecure from "../hooks/UseAxiosSecure";
-// import LoadingPage from "../components/LoadingPage";
-
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { Link } from "react-router";
@@ -22,7 +16,7 @@ const FeaturedDonations = () => {
   if (isLoading) return <span className="loading loading-bars loading-xl"></span>;
 
   return (
-    <div className="py-12 my-12 bg-base-300 rounded-2xl px-6 max-w-xl lg:max-w-7xl mx-auto shadow-md">
+    <div className="py-12 my-12  rounded-2xl px-6 max-w-7xl lg:max-w-7xl mx-auto shadow-md">
       <h2 className="text-3xl font-extrabold text-center mb-10 text-green-700 drop-shadow-md">
         🌟 Featured Donations
       </h2>

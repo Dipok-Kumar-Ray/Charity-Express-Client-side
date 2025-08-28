@@ -24,16 +24,16 @@ const AllDonation = () => {
   // Loading state
   if (isLoading)
     return (
-      <div className="flex justify-center items-center h-64">
-        <span className="loading loading-spinner"></span>
+      <div className="flex justify-center items-center h-72">
+        <span className="loading loading-spinner text-green-600 scale-150"></span>
       </div>
     );
 
   // Error state
   if (isError)
     return (
-      <div className="text-center text-red-500 py-10">
-        Failed to load donations
+      <div className="text-center text-red-500 py-10 text-lg">
+        Failed to load donations 😔
       </div>
     );
 
@@ -72,66 +72,68 @@ const AllDonation = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-green-50 to-white dark:from-gray-900 dark:to-gray-800 p-6">
-      <h2 className="text-3xl font-bold text-center mb-10 text-green-700 dark:text-green-200">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
+      <h2 className="text-3xl sm:text-4xl font-extrabold text-center mb-10 text-green-700 dark:text-green-200 tracking-wide">
         All Available Donations
       </h2>
 
       {/* Search & Sort */}
-      <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4 max-w-6xl mx-auto">
         <input
           type="text"
-          placeholder="Search by Location ..."
+          placeholder="🔍 Search by Location ..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-xl w-full sm:w-1/2 dark:bg-gray-800 dark:text-white"
+          className="px-4 py-2 border border-gray-300 rounded-xl w-full sm:w-1/2 shadow-sm focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-800 dark:text-white"
         />
 
         <select
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-xl w-full sm:w-1/4 dark:bg-gray-800 dark:text-white"
+          className="px-4 py-2 border border-gray-300 rounded-xl w-full sm:w-1/4 shadow-sm focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-800 dark:text-white"
         >
           <option value="">Sort By</option>
-          <option value="quantity">Quantity (High to Low)</option>
-          <option value="pickupTime">Pickup Time (Soonest First)</option>
+          <option value="quantity">📦 Quantity (High → Low)</option>
+          <option value="pickupTime">⏰ Pickup Time (Soonest First)</option>
         </select>
       </div>
 
       {/* Donation grid */}
       {sortedDonations.length === 0 ? (
-        <p className="text-center text-gray-500">No donations found</p>
+        <p className="text-center text-gray-500 text-lg">
+          No donations found 🚫
+        </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {sortedDonations.map((donation) => (
             <div
               key={donation._id}
-              className="group relative dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 transition duration-300 hover:bg-green-50 hover:shadow-xl hover:border-green-400 dark:hover:bg-gray-700"
+              className="group bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl hover:border-green-300 transition duration-300 flex flex-col"
             >
               <img
                 src={donation.image}
                 alt={donation.title}
-                className="h-48 w-full object-cover rounded-xl mb-4"
+                className="h-44 w-full object-cover rounded-xl mb-4 group-hover:scale-[1.02] transition-transform duration-300"
               />
-              <h3 className="text-xl font-semibold text-green-700 dark:text-green-200 mb-2">
+              <h3 className="text-xl font-bold text-green-700 dark:text-green-200 mb-2">
                 {donation.title}
               </h3>
 
-              <p className="text-gray-600 dark:text-gray-300 mb-1">
+              <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">
                 🍽️ <strong>Restaurant:</strong> {donation.restaurantName} (
                 {donation.location})
               </p>
 
-              <p className="text-gray-600 dark:text-gray-300 mb-1">
+              <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">
                 📦 <strong>Quantity:</strong> {donation.quantity}
               </p>
 
-              <p className="text-gray-600 dark:text-gray-300 mb-1">
+              <p className="text-gray-600 dark:text-gray-300 mb-2 text-sm">
                 ⏰ <strong>Pickup Time:</strong> {donation.pickupTime}
               </p>
 
               <span
-                className={`inline-block text-xs font-semibold mt-2 mb-3 px-3 py-1 rounded-full ${getStatusBadge(
+                className={`inline-block text-xs font-semibold mt-auto px-3 py-1 rounded-full ${getStatusBadge(
                   donation.status
                 )}`}
               >
@@ -142,7 +144,7 @@ const AllDonation = () => {
 
               <Link
                 to={`/donationDetails/${donation._id}`}
-                className="block text-center bg-green-600 text-white font-medium py-2 px-4 rounded-xl mt-2 hover:bg-green-700 transition duration-200"
+                className="block text-center bg-green-600 text-white font-medium py-2 px-4 rounded-xl mt-3 hover:bg-green-700 transition duration-200"
               >
                 View Details
               </Link>

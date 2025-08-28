@@ -27,12 +27,12 @@ const CommunityStories = () => {
   ];
 
   return (
-    <section className="py-12 my-12 bg-base-300 rounded-2xl px-6 max-w-xl mx-auto lg:max-w-7xl  shadow-md">
+    <section className="py-12 my-12  rounded-2xl px-6 max-w-7xl mx-auto lg:max-w-7xl  shadow-md">
       <h2 className="text-3xl font-bold text-green-800 text-center mb-17">
         Community Stories
       </h2>
 
-      <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
         {stories.map((story, idx) => (
           <div
             key={idx}

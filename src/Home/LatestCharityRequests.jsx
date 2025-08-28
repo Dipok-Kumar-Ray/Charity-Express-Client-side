@@ -1,8 +1,3 @@
-// import React from "react";
-// import { useQuery } from "@tanstack/react-query";
-// import useAxiosSecure from "../hooks/UseAxiosSecure";
-// import LoadingPage from "../components/LoadingPage";
-
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 
@@ -29,7 +24,7 @@ const LatestCharityRequests = () => {
         {requests.slice(0, 3).map((req) => (
           <div
             key={req._id}
-            className="bg-base-200 border rounded-xl shadow-md p-5 flex flex-col items-center md:flex-row md:items-center gap-6"
+            className=" border rounded-xl shadow-md p-5 flex flex-col items-center md:flex-row md:items-center gap-6"
           >
             {/* Photo */}
             <img

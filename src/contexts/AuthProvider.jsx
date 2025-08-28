@@ -55,7 +55,7 @@ const AuthProvider = ({ children }) => {
 
 const fetchUserRole = async (firebaseUser) => {
   try {
-    const res = await axios.get(`http://localhost:3000/users/${firebaseUser.email}`);
+    const res = await axios.get(`https://charity-ex-server-side.vercel.app/users/${firebaseUser.email}`);
     const role = res.data.role || "user";
 
     // Firebase থেকে সব field merge করা (fallback সহ)
@@ -85,7 +85,7 @@ const fetchUserRole = async (firebaseUser) => {
       if (currentUser) {
         try {
           // Token store
-          const res = await axios.post('http://localhost:3000/login', {
+          const res = await axios.post('https://charity-ex-server-side.vercel.app/login', {
             email: currentUser.email,
             name: currentUser.displayName
           });
@@ -117,7 +117,7 @@ useEffect(() => {
         const freshUser = auth.currentUser; // refreshed data
 
         // Token store
-       const res = await axios.post('http://localhost:3000/login', {
+       const res = await axios.post('https://charity-ex-server-side.vercel.app/login', {
   email: freshUser.email,
   name: freshUser.displayName,
   photoURL: freshUser.photoURL // নতুন করে এটা যোগ করো
